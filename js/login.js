@@ -11,6 +11,6 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
         localStorage.setItem("sesion", usuario);
 
         // Redirigir al inicio
-        window.location.replace ("/index.html");
+        window.location.replace ("proyecto-final-jap/index.html");
     }
 });
