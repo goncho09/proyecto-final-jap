@@ -1,18 +1,16 @@
 
-document.getElementById("loginForm").addEventListener("submit", function(e) {
+document.getElementById("loginForm").addEventListener("submit", function(e) { 
     e.preventDefault();
 
-    const usuario = document.getElementById("usuario").value;
-    const clave = document.getElementById("clave").value;
+    const usuario = document.getElementById("email").value;
+    const clave = document.getElementById("password").value;
 
     // Validación de ejemplo 
-    if (usuario && clave ) {
+    if (usuario && clave) {
         // Guardar sesión en localStorage
-        localStorage.setItem("usuario", usuario);
+        localStorage.setItem("sesion", usuario);
 
         // Redirigir al inicio
-        window.location.href = "index.html";
-    } else {
-        alert("Usuario o contraseña incorrectos");
+        window.location.replace ("/index.html");
     }
 });
