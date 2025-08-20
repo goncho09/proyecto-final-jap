@@ -1,4 +1,6 @@
-document.getElementById('loginForm').addEventListener('submit', function (e) {
+const form = document.getElementById('loginForm');
+
+form.addEventListener('submit', function (e) {
   e.preventDefault();
 
   const usuario = document.getElementById('email').value;
@@ -8,8 +10,9 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
   if (usuario && clave) {
     // Guardar sesión en localStorage
     localStorage.setItem('sesion', usuario);
-    console.log('Usuario autenticado:', usuario);
     // Redirigir al inicio
-    window.location.href = 'index.html';
+    // window.location.href = './index.html';
+
+    window.location.replace('./index.html');
   }
 });
