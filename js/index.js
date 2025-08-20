@@ -1,3 +1,9 @@
+if(localStorage.getItem("usuarioAutenticado") !== "true") {
+    window.location.replace('./index.html');
+
+    throw new Error("Usuario no autenticado");
+}
+
 document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("autos").addEventListener("click", function() {
         localStorage.setItem("catID", 101);
@@ -12,3 +18,10 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = "products.html"
     });
 });
+
+function cerrarSesion() {
+    localStorage.removeItem("usuarioAutenticado");
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("sesion");
+    window.location.replace('./index.html');
+}

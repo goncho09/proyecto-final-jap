@@ -1,9 +1,3 @@
-if(localStorage.getItem("usuarioAutenticado") !== "true") {
-    window.location.href = "login.html"
-
-    throw new Error("Usuario no autenticado");
-}
-
 const contenedor = document.getElementById('test');
 
 fetch(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
@@ -35,11 +29,3 @@ fetch(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
             </div>
         `;
     });
-
-    function cerrarSesion() {
-        localStorage.removeItem("usuarioAutenticado");
-        localStorage.removeItem("usuario");
-        localStorage.removeItem("sesion");
-        window.location.href = "login.html";
-    }
-
