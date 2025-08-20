@@ -9,9 +9,7 @@ form.addEventListener('submit', function (e) {
   // Validación de ejemplo
   if (usuario && clave) {
     // Guardar sesión en localStorage
-    localStorage.setItem('sesion', usuario);
-    // Redirigir al inicio
-    // window.location.href = './index.html';
+    localStorage.setItem('usuarioAutenticado', usuario);
 
     window.location.replace('./index.html');
   }

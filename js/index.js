@@ -1,7 +1,5 @@
-if(localStorage.getItem("usuarioAutenticado") !== "true") {
-    window.location.replace('./index.html');
-
-    throw new Error("Usuario no autenticado");
+if(!localStorage.getItem("usuarioAutenticado")) {
+    window.location.replace('./login.html');
 }
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -19,9 +17,12 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 });
 
+
+const cerrar = document.getElementById('cerrar-sesion');
+
+cerrar.addEventListener('click', cerrarSesion);
+
 function cerrarSesion() {
     localStorage.removeItem("usuarioAutenticado");
-    localStorage.removeItem("usuario");
-    localStorage.removeItem("sesion");
-    window.location.replace('./index.html');
+    window.location.replace('./login.html');
 }
