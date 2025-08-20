@@ -6,13 +6,15 @@ form.addEventListener('submit', function (e) {
   const usuario = document.getElementById('email').value;
   const clave = document.getElementById('password').value;
 
-  // Validación de ejemplo
-  if (usuario && clave) {
-    // Guardar sesión en localStorage
-    localStorage.setItem('sesion', usuario);
-    // Redirigir al inicio
-    // window.location.href = './index.html';
+    // Validación de ejemplo 
+    if (usuario && clave) {
+        
+      localStorage.setItem("usuarioAutenticado", "true");
 
-    window.location.replace('./index.html');
-  }
+      localStorage.setItem("usuario" , usuario); 
+
+        localStorage.setItem("sesion", usuario);
+
+        window.location.replace ("/index.html");
+    }
 });
