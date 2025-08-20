@@ -1,3 +1,7 @@
+if(!localStorage.getItem("usuarioAutenticado")) {
+    window.location.replace('./login.html');
+}
+
 document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("autos").addEventListener("click", function() {
         localStorage.setItem("catID", 101);
@@ -12,3 +16,13 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = "products.html"
     });
 });
+
+
+const cerrar = document.getElementById('cerrar-sesion');
+
+cerrar.addEventListener('click', cerrarSesion);
+
+function cerrarSesion() {
+    localStorage.removeItem("usuarioAutenticado");
+    window.location.replace('./login.html');
+}
