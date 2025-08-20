@@ -29,5 +29,3 @@ fetch(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
             </div>
         `;
     });
-
-
