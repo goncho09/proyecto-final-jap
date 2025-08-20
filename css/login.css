@@ -3,20 +3,10 @@ body {
     padding: 0;
     margin: 0;
     color: #fff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
 
 form {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     background: linear-gradient(90deg, #1E3A5F 0%, #293749 60%, #333333 100%);
     padding: 70px 50px;
     border-radius: 30px 30px 70px 30px;
@@ -33,10 +23,7 @@ form img {
     margin-right: 35px;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
+
 
 label {
     margin-bottom: 10px;
@@ -76,6 +63,7 @@ button {
         padding: 40px 25px;
         width: 75%;
     }
+
 
     button {
         width: 100%;
