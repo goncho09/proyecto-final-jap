@@ -1,3 +1,7 @@
+if(localStorage.getItem('usuarioAutenticado')) {
+  window.location.replace('./index.html');
+}
+
 const form = document.getElementById('loginForm');
 
 form.addEventListener('submit', function (e) {
