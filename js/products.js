@@ -1,9 +1,8 @@
 const containerProducts = document.getElementById('products');
 
-fetch(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
-    .then(response => response.json())
-    .then(data => {
-        const products = data.products;
+getJSONData(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
+    .then(response => {
+        const products = response.data.products;
 
         if (!products.length) {
             containerProducts.innerHTML += ` 
