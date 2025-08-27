@@ -76,6 +76,7 @@ button {
     img {
         margin-top: 20px;
         width: 100%;
+        object-fit:fill;
     }
 
 }
