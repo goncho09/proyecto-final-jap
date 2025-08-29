@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!userDisplay) return; // Si no existe la barra en esta página, no hacer nada
 
   // Mostrar correo del usuario
-  const correo = localStorage.getItem('usuarioCorreo'); // correo guardado al iniciar sesión
+  const correo = localStorage.getItem('usuarioAutenticado'); // correo guardado al iniciar sesión
   userDisplay.textContent = correo ? correo : 'correo@ejemplo.com'; // valor por defecto
 });
 
