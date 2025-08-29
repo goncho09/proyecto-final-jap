@@ -1,9 +1,13 @@
+if(localStorage.getItem('usuarioAutenticado')) {
+  window.location.replace('./index.html');
+}
+
 const form = document.getElementById('loginForm');
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
 
-  const usuario = document.getElementById('email').value;
+  const usuario = document.getElementById('user').value;
   const clave = document.getElementById('password').value;
 
   // Validación de ejemplo
