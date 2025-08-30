@@ -15,7 +15,7 @@ getJSONData(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
         } else {
             for (const product of products) {
                 containerProducts.innerHTML += `
-                <div class="col-md-3 mb-4">
+                <div class="col-12 col-md-4 col-lg-3 mb-4">
                     <div class="card h-100">
                         <img src="${product.image}" class="card-img-top" alt="${product.name} image">
                         <div class="card-body">
