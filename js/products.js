@@ -1,4 +1,6 @@
 const containerProducts = document.getElementById('products');
+const searchInput = document.getElementById('searchInput');
+
 
 getJSONData(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
     .then(response => {
@@ -15,7 +17,7 @@ getJSONData(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
         } else {
             for (const product of products) {
                 containerProducts.innerHTML += `
-                <div class="col-12 col-md-4 col-lg-3 mb-4">
+                <div class="col-12 col-md-4 col-lg-3 mb-4 productosCards">
                     <div class="card h-100">
                         <img src="${product.image}" class="card-img-top" alt="${product.name} image">
                         <div class="card-body">
@@ -32,3 +34,17 @@ getJSONData(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
             }
         }
     });
+
+    searchInput.addEventListener('input', (event) => {
+    const palabraBusqueda = event.target.value.toLowerCase();
+    const productCards = containerProducts.getElementsByClassName('productosCards');
+
+    Array.from(productCards).forEach(card => {
+        const productName = card.getElementsByClassName('card-title')[0].innerText.toLowerCase();
+        if (productName.includes(palabraBusqueda)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
