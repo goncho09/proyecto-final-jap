@@ -9,14 +9,14 @@ body {
 form {
     background: linear-gradient(90deg, #1E3A5F 0%, #293749 60%, #333333 100%);
     padding: 70px 50px;
-    border-radius: 30px 30px 70px 30px;
+    border-radius: 35px 35px 75px 35px;
 }
 
 form img {
     max-width: 300px;
     height: 150px;
     object-fit: cover;
-    border-radius: 30px 30px 50px 30px;
+    border-radius: 35px 35px 75px 35px;
 }
 
 .inputs-container {
@@ -68,6 +68,7 @@ button {
         align-items: center;
         padding: 40px 25px;
         width: 75%;
+        border-radius: 35px 35px 85px 35px;
     }
 
 
@@ -78,8 +79,6 @@ button {
     .inputs-container {
         margin: 0;
     }
-
-
 
     form img {
         margin-top: 20px;
