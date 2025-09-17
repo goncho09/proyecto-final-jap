@@ -18,11 +18,3 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 
-const cerrar = document.getElementById('cerrar-sesion');
-
-cerrar.addEventListener('click', cerrarSesion);
-
-function cerrarSesion() {
-    localStorage.removeItem("usuarioAutenticado");
-    window.location.replace('./login.html');
-}
