@@ -187,8 +187,9 @@ a.custom-card:hover {
 
 .checked {
 
-  color: orange;
+    color: orange;
 }
+
 .top-bar {
   position: fixed;       /* barra fija en la esquina superior derecha */
   top: 3px;
@@ -202,9 +203,72 @@ a.custom-card:hover {
   z-index: 1000;          /* sobre otros elementos */
 }
 
+.product-information,
+.carousel,
+.product-information div>h1,
+.information-sell,
+.main-information {
+    border: 2px solid black;
+}
 
+.main-information {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+}
 
+.product-info {
+    width: 262px;
+    height: 100%;
 
+    margin: 2rem auto;
+}
+
+@media screen and (min-width: 760px) {
+    .product-info {
+        width: 581px;
+    }
+
+}
+
+@media screen and (min-width: 992px) {
+    .product-info {
+        width: 900px;
+    }
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: #FFD54F !important;
+}
+
+.carousel-control-prev-icon {
+    height: 32px;
+    width: 32px;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFD54F' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-control-next-icon {
+    height: 32px;
+    width: 32px;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFD54F' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-indicators {
+    height: 32px;
+    min-width: 32px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    opacity: 0.9 !important;
+    /* Default is 0.5 */
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1 !important;
+}
 
 
 
