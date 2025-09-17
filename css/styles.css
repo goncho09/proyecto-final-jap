@@ -1,3 +1,9 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .jumbotron,
 .card-body,
 .container,
@@ -191,16 +197,21 @@ a.custom-card:hover {
 }
 
 .top-bar {
-  position: fixed;       /* barra fija en la esquina superior derecha */
-  top: 3px;
-  right: 10px;
-  padding: 10px 20px;
-  border: 2px solid red; /* borde rojo */
-  background-color: transparent; /* no toca el fondo de tu barra negra */
-  color: #fff;            /* texto blanco */
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  z-index: 1000;          /* sobre otros elementos */
+    position: fixed;
+    /* barra fija en la esquina superior derecha */
+    top: 3px;
+    right: 10px;
+    padding: 10px 20px;
+    border: 2px solid red;
+    /* borde rojo */
+    background-color: transparent;
+    /* no toca el fondo de tu barra negra */
+    color: #fff;
+    /* texto blanco */
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    z-index: 1000;
+    /* sobre otros elementos */
 }
 
 .product-information,
@@ -269,8 +280,3 @@ a.custom-card:hover {
 .carousel-control-next:hover {
     opacity: 1 !important;
 }
-
-
-
-
-
