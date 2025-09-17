@@ -45,8 +45,7 @@
     </nav>
 
     <!-- Tarjetas de productos -->
-    <main class="pb-5 container mt-5">
-        <input type="text" id="searchInput" class="form-control mb-4" placeholder="Buscar productos...">
+    <main class="pb-5 mt-5">
         <!-- Filtros y Ordenamiento -->
         <section class="container my-4">
             <div class="row mb-3">
@@ -55,6 +54,7 @@
                     <p>Verás aquí todos los productos de la categoría <span id="categoryName"></span></p>
                 </div>
             </div>
+            <input type="text" id="searchInput" class="form-control mb-4" placeholder="Buscar productos...">
 
             <div class="row mb-4 align-items-end">
                 <!-- Filtro Precio Mínimo -->
@@ -88,10 +88,10 @@
                     </select>
                 </div>
             </div>
+            <div class="row " id="products"></div>
         </section>
-        <div class="row " id="products"></div>
     </main>
-  
+
     <footer class="text-muted">
         <div class="container">
             <p class="float-end">
