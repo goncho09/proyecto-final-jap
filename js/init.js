@@ -46,5 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Mostrar correo del usuario
   const correo = localStorage.getItem('usuarioAutenticado'); // correo guardado al iniciar sesión
   userDisplay.textContent = correo ? correo : 'correo@ejemplo.com'; // valor por defecto
+  //  Validar si el usuario está logueado
+  const usuario = localStorage.getItem("usuarioAutenticado");
+  
+  // Si no hay usuario y no estamos en login.html → redirigir al login
+  if (!usuario && !window.location.pathname.endsWith("login.html")) {
+    window.location.href = "login.html";
+  }
 });
-
