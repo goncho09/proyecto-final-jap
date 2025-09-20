@@ -1,3 +1,6 @@
+if(!localStorage.getItem("usuarioAutenticado")) {
+    window.location.replace('./login.html');
+}
 const productsDiv = document.getElementById('products');
 const searchInput = document.getElementById('searchInput');
 
