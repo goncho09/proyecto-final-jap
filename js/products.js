@@ -1,5 +1,5 @@
 const containerProducts = document.getElementById('products');
-
+let currentCategory = "";
 getJSONData(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
     .then(response => {
         const products = response.data.products;
