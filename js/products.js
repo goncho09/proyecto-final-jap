@@ -1,5 +1,6 @@
 const containerProducts = document.getElementById('products');
 let currentCategory = "";
+const searchInput = document.getElementById('searchInput');
 getJSONData(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
     .then(response => {
         const products = response.data.products;
