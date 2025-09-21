@@ -21,6 +21,7 @@ getJSONData(`${PRODUCTS_URL}${localStorage.getItem('catID')}${EXT_TYPE}`)
 
             return;
         }
+        document.getElementById('information').classList.remove('d-none')
 
         products.forEach(product => {
             createCardProduct(product);
