@@ -249,6 +249,8 @@ a.custom-card:hover {
     }
 }
 
+/* Carousel de imagen dentro de la pagina product-info */
+
 .carousel-indicators [data-bs-target] {
     background-color: #FFD54F !important;
 }
@@ -279,4 +281,29 @@ a.custom-card:hover {
 .carousel-control-prev:hover,
 .carousel-control-next:hover {
     opacity: 1 !important;
+}
+
+
+/* Hover de producto relacionado */
+
+.related-title  {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    font-weight: 800;
+    color: #FFD54F !important;
+}
+
+.card-img-overlay {
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #33333355;
+
+    transition: opacity .3s ease;
+}
+
+a:hover .card-img-overlay {
+    opacity: 1;
 }

@@ -1,4 +1,4 @@
-if(!localStorage.getItem("usuarioAutenticado")) {
+if (!localStorage.getItem("usuarioAutenticado")) {
     window.location.replace('./login.html');
 }
 const productInfo = document.getElementById('product-info');
@@ -94,15 +94,32 @@ getJSONData(`${PRODUCT_INFO_URL}${localStorage.getItem('productID')}${EXT_TYPE}
 
         const productLink = document.createElement('a');
         productLink.href = './product-info.html';
-        productLink.addEventListener('click',  () => {
+        productLink.addEventListener('click', () => {
             localStorage.setItem('productID', relatedProduct.id)
         });
 
-        const productImage = document.createElement('img');
-        productImage.src = relatedProduct.image;
-        productImage.className = 'w-75';
 
-        productLink.appendChild(productImage);
+        const card = document.createElement('div');
+        card.className = 'card bg-dark';
+
+        const cardImage = document.createElement('img');
+        cardImage.className = 'card-img';
+        cardImage.src = relatedProduct.image;
+        cardImage.alt = 'Card image';
+
+        const cardOverlay = document.createElement('div');
+        cardOverlay.className = 'card-img-overlay';
+
+        const cardTitle = document.createElement('h5');
+        cardTitle.className = 'card-title related-title';
+        cardTitle.textContent = relatedProduct.name;
+
+        cardOverlay.appendChild(cardTitle);
+        card.appendChild(cardImage);
+        card.appendChild(cardOverlay);
+        productLink.appendChild(card);
+
+        // productLink.appendChild(productImage);
         productCol.appendChild(productLink);
         relatedRow.appendChild(productCol);
     });
