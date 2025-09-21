@@ -1,3 +1,6 @@
+if(!localStorage.getItem("usuarioAutenticado")) {
+    window.location.replace('./login.html');
+}
 const productInfo = document.getElementById('product-info');
 
 getJSONData(`${PRODUCT_INFO_URL}${localStorage.getItem('productID')}${EXT_TYPE}
