@@ -10,6 +10,15 @@ nav {
     color: #fff;
 }
 
+.nav-left a {
+    color: #fff;
+}
+
+.nav-left a:hover {
+    text-decoration: underline;
+    color: #949494;
+}
+
 nav ul {
     list-style: none;
     padding: 0;

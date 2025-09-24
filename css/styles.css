@@ -214,13 +214,13 @@ a.custom-card:hover {
     /* sobre otros elementos */
 }
 
-.product-information,
+/* .product-information,
 .carousel,
 .product-information div>h1,
 .information-sell,
 .main-information {
     border: 2px solid black;
-}
+} */
 
 .main-information {
     display: flex;
@@ -286,7 +286,7 @@ a.custom-card:hover {
 
 /* Hover de producto relacionado */
 
-.related-title  {
+.related-title {
     font-size: 1.3rem;
     letter-spacing: 2px;
     font-weight: 800;
