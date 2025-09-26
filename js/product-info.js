@@ -1,3 +1,5 @@
+const API_URL = 'https://japceibal.github.io/emercado-api/';
+
 if (!localStorage.getItem('usuarioAutenticado')) {
   window.location.replace('./login.html');
 }
@@ -40,4 +42,46 @@ getJSONData(`${PRODUCT_INFO_URL}${localStorage.getItem('productID')}${EXT_TYPE}
 
         
     `;
+});
+
+const commentsSection = document.getElementById('comments-section');
+
+function mostrarEstrellas(rating) {
+  let estrellas = '';
+
+  for (let i = 0; i <= 5; i++) {
+    if (i < rating) {
+      estrellas += '<span class="fa fa-star checked"></span>'; // estrella llena
+    } else {
+      estrellas += '<span class="fa fa-star"></span>'; // estrella vacía
+    }
+  }
+  return estrellas;
+}
+
+getJSONData(
+  `${PRODUCT_INFO_COMMENTS_URL}${localStorage.getItem('productID')}${EXT_TYPE}`
+).then((response) => {
+  const comments = response.data;
+
+  commentsSection.innerHTML = comments
+    .map(
+      (comment) => `
+      <div class="d-flex flex-column ">
+      <div class="d-flex  align-items-center justify-content-between">
+        <h5 class="fw-bold m-0" style="font-size: 1.2rem;">${comment.user}:</h5>
+        <p class="text-muted m-0" style="white-space: nowrap;font-size:1rem">${
+          comment.dateTime
+        }</p>
+      </div>
+        <div class="d-flex flex-column">
+        <p style="font-size: 1rem;margin:5px 0 5px 0;>
+            ${mostrarEstrellas(comment.score)}
+        <p  style="font-size: 1rem;margin:0">${comment.description}</p>
+        </div>
+      </div>
+      <hr class="my-2" style="border-top: 1px solid #eee;">
+    `
+    )
+    .join('');
 });
