@@ -69,7 +69,9 @@ getJSONData(
       (comment) => `
       <div class="d-flex flex-column ">
       <div class="d-flex  align-items-center justify-content-between">
-        <h5 class="fw-bold m-0" style="font-size: 1.2rem;">${comment.user}:</h5>
+        <h5 class="fw-bold m-0" style="font-size: 1.2rem;" id="comment-user">${
+          comment.user
+        }:</h5>
         <p class="text-muted m-0" style="white-space: nowrap;font-size:1rem">${
           comment.dateTime
         }</p>
@@ -85,3 +87,29 @@ getJSONData(
     )
     .join('');
 });
+
+const relatedProductsSection = document.getElementById('related-products');
+
+getJSONData(
+  `${PRODUCT_INFO_URL}${localStorage.getItem('productID')}${EXT_TYPE}`
+).then((response) => {
+  const products = response.data;
+  const relatedProducts = products.relatedProducts;
+  relatedProductsSection.innerHTML += relatedProducts
+    .map(
+      (product) => `  
+        <div class="card m-2" style="width: 12rem; cursor: pointer;" onclick="setProductID(${product.id})">
+            <a href="product-info.html">
+                <img src="${product.image}" class="card-img-top" alt="${product.name}" style="height: 150px; object-fit: cover;border-radius: 15px;">
+                <h2 class="fs-6 text-center my-2">${product.name}</h2>
+            </a>
+        </div>
+    `
+    )
+    .join('');
+});
+
+function setProductID(id) {
+  localStorage.setItem('productID', id);
+  window.location = 'product-info.html';
+}
