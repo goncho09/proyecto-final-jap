@@ -1,3 +1,5 @@
+// --- Espera a que todo el DOM esté cargado ---//
+document.addEventListener('DOMContentLoaded', () => {
 const API_URL = 'https://japceibal.github.io/emercado-api/';
 
 if (!localStorage.getItem('usuarioAutenticado')) {
@@ -45,6 +47,8 @@ getJSONData(`${PRODUCT_INFO_URL}${localStorage.getItem('productID')}${EXT_TYPE}
 });
 
 const commentsSection = document.getElementById('comments-section');
+// Array para almacenar comentarios simulados //
+let simulatedComments = [];
 
 function mostrarEstrellas(rating) {
   let estrellas = '';
@@ -63,8 +67,11 @@ getJSONData(
   `${PRODUCT_INFO_COMMENTS_URL}${localStorage.getItem('productID')}${EXT_TYPE}`
 ).then((response) => {
   const comments = response.data;
-
-  commentsSection.innerHTML = comments
+  
+    // Función para renderizar todos los comentarios //
+    function renderAllComments() {
+      const allComments = comments.concat(simulatedComments);
+  commentsSection.innerHTML = allComments
     .map(
       (comment) => `
       <div class="d-flex flex-column ">
@@ -77,7 +84,7 @@ getJSONData(
         }</p>
       </div>
         <div class="d-flex flex-column">
-        <p style="font-size: 1rem;margin:5px 0 5px 0;>
+        <p style="font-size: 1rem;margin:5px 0 5px 0;">
             ${mostrarEstrellas(comment.score)}
         <p  style="font-size: 1rem;margin:0">${comment.description}</p>
         </div>
@@ -86,6 +93,41 @@ getJSONData(
     `
     )
     .join('');
+};
+
+    // Render inicial con los comentarios originales //
+    renderAllComments();
+
+    const sendButton = document.querySelector('.btn.btn-primary'); // botón de enviar
+sendButton.addEventListener('click', (e) => {
+  e.preventDefault(); // prevenir comportamiento por defecto del botón
+
+      const ratingInput = document.querySelector('input[name="rating"]:checked'); // input de calificación
+      const commentInput = document.querySelector('#comentario'); // textarea de comentario
+
+      if (!ratingInput) {
+          alert('Selecciona una calificación');
+          return;
+        }
+
+      const val = parseInt(ratingInput.value, 10);
+      const desc = commentInput.value.trim() || 'Comentario simulado';
+        const now = new Date();
+
+        simulatedComments.push({
+          user: 'Usuario Simulado', // o el nombre del login //
+          score: val,
+          description: desc,
+          dateTime: now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0]
+        });
+      // Renderizar todos los comentarios //
+      renderAllComments();
+
+      
+  // Limpiar inputs //
+  ratingInput.checked = false;
+  commentInput.value = '';
+});
 });
 
 const relatedProductsSection = document.getElementById('related-products');
@@ -109,7 +151,9 @@ getJSONData(
     .join('');
 });
 
+
 function setProductID(id) {
   localStorage.setItem('productID', id);
   window.location = 'product-info.html';
 }
+});
