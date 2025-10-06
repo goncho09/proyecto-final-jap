@@ -112,7 +112,6 @@ function mostrarEstrellas(rating) {
     let estrellas = '';
 
     for (let i = 0; i < 5; i++) {
-        console.log(i, rating);
         if (i < rating) {
             estrellas += '<span class="fa fa-star checked"></span>'; // estrella llena
         } else {
@@ -186,9 +185,8 @@ getJSONData(
         // Renderizar todos los comentarios //
         renderAllComments();
 
-        // Limpiar inputs //
-        ratingInput.checked = false;
-        commentInput.value = '';
+            // Limpiar inputs //
+            ratingInput.checked = false;
+            commentInput.value = '';
+        });
     });
-});
-
