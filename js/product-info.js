@@ -111,7 +111,7 @@ let simulatedComments = [];
 function mostrarEstrellas(rating) {
     let estrellas = '';
 
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 0; i < 5; i++) {
         if (i < rating) {
             estrellas += '<span class="fa fa-star checked"></span>'; // estrella llena
         } else {
