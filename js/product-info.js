@@ -111,7 +111,8 @@ let simulatedComments = [];
 function mostrarEstrellas(rating) {
     let estrellas = '';
 
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 0; i < 5; i++) {
+        console.log(i, rating);
         if (i < rating) {
             estrellas += '<span class="fa fa-star checked"></span>'; // estrella llena
         } else {
@@ -122,63 +123,72 @@ function mostrarEstrellas(rating) {
 }
 
 getJSONData(
-    `${PRODUCT_INFO_COMMENTS_URL}${productID}${EXT_TYPE}`)
-    .then((response) => {
-        const comments = response.data;
+    `${PRODUCT_INFO_COMMENTS_URL}${productID}${EXT_TYPE}`
+).then((response) => {
+    const comments = response.data;
 
-        // Función para renderizar todos los comentarios //
-        function renderAllComments() {
-            const allComments = comments.concat(simulatedComments);
-            commentsSection.innerHTML = allComments
-                .map(
-                    (comment) => `
-                <div class="d-flex flex-column ">
-                    <div class="d-flex  align-items-center justify-content-between">
-                        <h5 class="fw-bold m-0" style="font-size: 1.2rem;" id="comment-user">${comment.user}:</h5>
-                        <p class="text-muted m-0" style="white-space: nowrap;font-size:1rem">${comment.dateTime}</p>
-                    </div>
-                        <div class="d-flex flex-column">
-                        <p style="font-size: 1rem;margin:5px 0 5px 0;">
-                        ${mostrarEstrellas(comment.score)}</p>
-                        <p style="font-size: 1rem;margin:0">${comment.description}</p>
-                    </div>
-                </div>
-                <hr class="my-2" style="border-top: 1px solid #eee;">
-            `
-                ).join('');
-        };
+    // Función para renderizar todos los comentarios //
+    function renderAllComments() {
+        const allComments = comments.concat(simulatedComments);
+        commentsSection.innerHTML = allComments
+            .map(
+                (comment) => `
+      <div class="d-flex flex-column ">
+      <div class="d-flex  align-items-center justify-content-between">
+        <h5 class="fw-bold m-0" style="font-size: 1.2rem;" id="comment-user">${comment.user
+                    }:</h5>
+        <p class="text-muted m-0" style="white-space: nowrap;font-size:1rem">${comment.dateTime
+                    }</p>
+      </div>
+        <div class="d-flex flex-column">
+        <p style="font-size: 1rem;margin:5px 0 5px 0;">
+            ${mostrarEstrellas(comment.score)}
+        </p>
+        <p  style="font-size: 1rem;margin:0">${comment.description}</p>
+        </div>
+      </div>
+      <hr class="my-2" style="border-top: 1px solid #eee;">
+    `
+            )
+            .join('');
+    }
 
-        // Render inicial con los comentarios originales //
+    // Render inicial con los comentarios originales //
+    renderAllComments();
+
+    const sendButton = document.querySelector('.btn.btn-primary'); // botón de enviar
+    sendButton.addEventListener('click', (e) => {
+        e.preventDefault(); // prevenir comportamiento por defecto del botón
+
+        const ratingInput = document.querySelector(
+            'input[name="rating"]:checked'
+        ); // input de calificación
+        const commentInput = document.querySelector('#comentario'); // textarea de comentario
+
+        if (!ratingInput) {
+            alert('Selecciona una calificación');
+            return;
+        }
+
+        const val = parseInt(ratingInput.value, 10);
+        const desc = commentInput.value.trim() || 'Comentario simulado';
+        const now = new Date();
+
+        simulatedComments.push({
+            user: localStorage.getItem('usuarioAutenticado') || 'Desconocido',
+            score: val,
+            description: desc,
+            dateTime:
+                now.toISOString().split('T')[0] +
+                ' ' +
+                now.toTimeString().split(' ')[0],
+        });
+        // Renderizar todos los comentarios //
         renderAllComments();
 
-        const sendButton = document.querySelector('.btn.btn-primary'); // botón de enviar
-        sendButton.addEventListener('click', (e) => {
-            e.preventDefault(); // prevenir comportamiento por defecto del botón
-
-            const ratingInput = document.querySelector('input[name="rating"]:checked'); // input de calificación
-            const commentInput = document.querySelector('#comentario'); // textarea de comentario
-
-            if (!ratingInput) {
-                alert('Selecciona una calificación');
-                return;
-            }
-
-            const val = parseInt(ratingInput.value, 10);
-            const desc = commentInput.value.trim() || 'Comentario simulado';
-            const now = new Date();
-
-            simulatedComments.push({
-                user: 'Usuario Simulado', // o el nombre del login //
-                score: val,
-                description: desc,
-                dateTime: now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0]
-            });
-            // Renderizar todos los comentarios //
-            renderAllComments();
-
-
-            // Limpiar inputs //
-            ratingInput.checked = false;
-            commentInput.value = '';
-        });
+        // Limpiar inputs //
+        ratingInput.checked = false;
+        commentInput.value = '';
     });
+});
+
