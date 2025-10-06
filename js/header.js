@@ -9,11 +9,25 @@ function cerrarSesion() {
 }
 
 function loadHeader() {
+  const container = document.getElementById('header');
+
+  document.body.style.opacity = 0;
+  document.body.style.transition = 'opacity 0.2s ease';
+
   fetch('header.html')
     .then((res) => res.text())
     .then((data) => {
-      const container = document.getElementById('header');
       container.innerHTML = data;
+
+      const userDisplay = document.getElementById('userDisplay');
+      const user = localStorage.getItem('usuarioAutenticado');
+      if (user && userDisplay) {
+        userDisplay.textContent = user;
+      }
+    })
+    .catch((err) => console.error('Error cargando el header:', err))
+    .finally(() => {
+      document.body.style.opacity = 1;
     });
 }
 

@@ -1,23 +1,25 @@
 // --- Espera a que todo el DOM esté cargado ---//
 document.addEventListener('DOMContentLoaded', () => {
-const API_URL = 'https://japceibal.github.io/emercado-api/';
+  const API_URL = 'https://japceibal.github.io/emercado-api/';
 
-if (!localStorage.getItem('usuarioAutenticado')) {
-  window.location.replace('./login.html');
-}
-const productInfo = document.getElementById('product-info');
+  if (!localStorage.getItem('usuarioAutenticado')) {
+    window.location.replace('./login.html');
+  }
+  const productInfo = document.getElementById('product-info');
 
-getJSONData(`${PRODUCT_INFO_URL}${localStorage.getItem('productID')}${EXT_TYPE}
+  getJSONData(`${PRODUCT_INFO_URL}${localStorage.getItem(
+    'productID'
+  )}${EXT_TYPE}
 `).then((response) => {
-  const data = response.data;
+    const data = response.data;
 
-  productInfo.innerHTML = `
+    productInfo.innerHTML = `
     <div class="d-flex flex-column">
             
      <div class="d-flex flex-column align-items-center">
         <img id="mainImage" src="${data.images[0]}" alt="${
-    data.name
-  }" class="img-fluid mb-3" style="max-height: 400px; object-fit: contain;">
+      data.name
+    }" class="img-fluid mb-3" style="max-height: 400px; object-fit: contain;">
         <div class="d-flex flex-wrap justify-content-center gap-2">
         ${data.images
           .map(
@@ -44,36 +46,39 @@ getJSONData(`${PRODUCT_INFO_URL}${localStorage.getItem('productID')}${EXT_TYPE}
 
         
     `;
-});
+  });
 
-const commentsSection = document.getElementById('comments-section');
-// Array para almacenar comentarios simulados //
-let simulatedComments = [];
+  const commentsSection = document.getElementById('comments-section');
+  // Array para almacenar comentarios simulados //
+  let simulatedComments = [];
 
-function mostrarEstrellas(rating) {
-  let estrellas = '';
+  function mostrarEstrellas(rating) {
+    let estrellas = '';
 
-  for (let i = 0; i <= 5; i++) {
-    if (i < rating) {
-      estrellas += '<span class="fa fa-star checked"></span>'; // estrella llena
-    } else {
-      estrellas += '<span class="fa fa-star"></span>'; // estrella vacía
+    for (let i = 0; i < 5; i++) {
+      console.log(i, rating);
+      if (i < rating) {
+        estrellas += '<span class="fa fa-star checked"></span>'; // estrella llena
+      } else {
+        estrellas += '<span class="fa fa-star"></span>'; // estrella vacía
+      }
     }
+    return estrellas;
   }
-  return estrellas;
-}
 
-getJSONData(
-  `${PRODUCT_INFO_COMMENTS_URL}${localStorage.getItem('productID')}${EXT_TYPE}`
-).then((response) => {
-  const comments = response.data;
-  
+  getJSONData(
+    `${PRODUCT_INFO_COMMENTS_URL}${localStorage.getItem(
+      'productID'
+    )}${EXT_TYPE}`
+  ).then((response) => {
+    const comments = response.data;
+
     // Función para renderizar todos los comentarios //
     function renderAllComments() {
       const allComments = comments.concat(simulatedComments);
-  commentsSection.innerHTML = allComments
-    .map(
-      (comment) => `
+      commentsSection.innerHTML = allComments
+        .map(
+          (comment) => `
       <div class="d-flex flex-column ">
       <div class="d-flex  align-items-center justify-content-between">
         <h5 class="fw-bold m-0" style="font-size: 1.2rem;" id="comment-user">${
@@ -86,60 +91,65 @@ getJSONData(
         <div class="d-flex flex-column">
         <p style="font-size: 1rem;margin:5px 0 5px 0;">
             ${mostrarEstrellas(comment.score)}
+        </p>
         <p  style="font-size: 1rem;margin:0">${comment.description}</p>
         </div>
       </div>
       <hr class="my-2" style="border-top: 1px solid #eee;">
     `
-    )
-    .join('');
-};
+        )
+        .join('');
+    }
 
     // Render inicial con los comentarios originales //
     renderAllComments();
 
     const sendButton = document.querySelector('.btn.btn-primary'); // botón de enviar
-sendButton.addEventListener('click', (e) => {
-  e.preventDefault(); // prevenir comportamiento por defecto del botón
+    sendButton.addEventListener('click', (e) => {
+      e.preventDefault(); // prevenir comportamiento por defecto del botón
 
-      const ratingInput = document.querySelector('input[name="rating"]:checked'); // input de calificación
+      const ratingInput = document.querySelector(
+        'input[name="rating"]:checked'
+      ); // input de calificación
       const commentInput = document.querySelector('#comentario'); // textarea de comentario
 
       if (!ratingInput) {
-          alert('Selecciona una calificación');
-          return;
-        }
+        alert('Selecciona una calificación');
+        return;
+      }
 
       const val = parseInt(ratingInput.value, 10);
       const desc = commentInput.value.trim() || 'Comentario simulado';
-        const now = new Date();
+      const now = new Date();
 
-        simulatedComments.push({
-          user: 'Usuario Simulado', // o el nombre del login //
-          score: val,
-          description: desc,
-          dateTime: now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0]
-        });
+      simulatedComments.push({
+        user: localStorage.getItem('usuarioAutenticado') || 'Desconocido',
+        score: val,
+        description: desc,
+        dateTime:
+          now.toISOString().split('T')[0] +
+          ' ' +
+          now.toTimeString().split(' ')[0],
+      });
       // Renderizar todos los comentarios //
       renderAllComments();
 
-      
-  // Limpiar inputs //
-  ratingInput.checked = false;
-  commentInput.value = '';
-});
-});
+      // Limpiar inputs //
+      ratingInput.checked = false;
+      commentInput.value = '';
+    });
+  });
 
-const relatedProductsSection = document.getElementById('related-products');
+  const relatedProductsSection = document.getElementById('related-products');
 
-getJSONData(
-  `${PRODUCT_INFO_URL}${localStorage.getItem('productID')}${EXT_TYPE}`
-).then((response) => {
-  const products = response.data;
-  const relatedProducts = products.relatedProducts;
-  relatedProductsSection.innerHTML += relatedProducts
-    .map(
-      (product) => `  
+  getJSONData(
+    `${PRODUCT_INFO_URL}${localStorage.getItem('productID')}${EXT_TYPE}`
+  ).then((response) => {
+    const products = response.data;
+    const relatedProducts = products.relatedProducts;
+    relatedProductsSection.innerHTML += relatedProducts
+      .map(
+        (product) => `  
         <div class="card m-2" style="width: 12rem; cursor: pointer;" onclick="setProductID(${product.id})">
             <a href="product-info.html">
                 <img src="${product.image}" class="card-img-top" alt="${product.name}" style="height: 150px; object-fit: cover;border-radius: 15px;">
@@ -147,13 +157,12 @@ getJSONData(
             </a>
         </div>
     `
-    )
-    .join('');
-});
+      )
+      .join('');
+  });
 
-
-function setProductID(id) {
-  localStorage.setItem('productID', id);
-  window.location = 'product-info.html';
-}
+  function setProductID(id) {
+    localStorage.setItem('productID', id);
+    window.location = 'product-info.html';
+  }
 });
