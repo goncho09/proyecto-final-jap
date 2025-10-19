@@ -1,3 +1,3 @@
- if(!localStorage.getItem("usuarioAutenticado")) {
-    window.location.replace('./login.html');
-}
+import { authorizedUser, checkSession } from "./util/checkLogin.js";
+
+checkSession(!authorizedUser, './login.html');
