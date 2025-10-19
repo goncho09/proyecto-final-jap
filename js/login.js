@@ -1,20 +1,20 @@
-if(localStorage.getItem('usuarioAutenticado')) {
-  window.location.replace('./index.html');
-}
+import { authorizedUser, checkSession } from "./util/checkLogin.js";
+
+checkSession(authorizedUser, './');
 
 const form = document.getElementById('loginForm');
 
 form.addEventListener('submit', function (e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  const usuario = document.getElementById('user').value;
-  const clave = document.getElementById('password').value;
+    const usuario = document.getElementById('user').value;
+    const clave = document.getElementById('password').value;
 
-  // Validación de ejemplo
-  if (usuario && clave) {
-    // Guardar sesión en localStorage
-    localStorage.setItem('usuarioAutenticado', usuario);
+    // Validación de ejemplo
+    if (usuario && clave) {
+        // Guardar sesión en localStorage
+        localStorage.setItem('usuarioAutenticado', usuario);
 
-    window.location.replace('./index.html');
-  }
+        window.location.replace('./index.html');
+    }
 });

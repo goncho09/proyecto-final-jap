@@ -1,6 +1,6 @@
-if(!localStorage.getItem("usuarioAutenticado")) {
-    window.location.replace('./login.html');
-}
+import {  authorizedUser, checkSession} from "./util/checkLogin.js";
+
+checkSession(!authorizedUser, './login.html');
 let productCost = 0;
 let productCount = 0;
 let comissionPercentage = 0.13;
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         comissionPercentage = 0.13;
         updateTotalCosts();
     });
-    
+
     document.getElementById("premiumradio").addEventListener("change", function(){
         comissionPercentage = 0.07;
         updateTotalCosts();
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         if (this.value == DOLLAR_CURRENCY)
         {
             MONEY_SYMBOL = DOLLAR_SYMBOL;
-        } 
+        }
         else if (this.value == PESO_CURRENCY)
         {
             MONEY_SYMBOL = PESO_SYMBOL;
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         url:"/",
         autoQueue: false
     };
-    let myDropzone = new Dropzone("div#file-upload", dzoptions);    
+    let myDropzone = new Dropzone("div#file-upload", dzoptions);
 
 
     //Se obtiene el formulario de publicación de producto
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function(e){
     //lanzado por el formulario cuando se seleccione 'Vender'.
     sellForm.addEventListener("submit", function(e){
 
-        e.preventDefault(); 
+        e.preventDefault();
         e.preventDefault();
 
         let productNameInput = document.getElementById("productName");
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function(e){
             productNameInput.classList.add('is-invalid');
             infoMissing = true;
         }
-        
+
         //Consulto por la categoría del producto
         if (productCategory.value === "")
         {
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function(e){
             productCost.classList.add('is-invalid');
             infoMissing = true;
         }
-        
+
         if(!infoMissing)
         {
             //Aquí ingresa si pasó los controles, irá a enviar
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function(e){
             getJSONData(PUBLISH_PRODUCT_URL).then(function(resultObj){
                 let msgToShowHTML = document.getElementById("resultSpan");
                 let msgToShow = "";
-    
+
                 //Si la publicación fue exitosa, devolverá mensaje de éxito,
                 //de lo contrario, devolverá mensaje de error.
                 //FUNCIONALIDAD NO IMPLEMENTADA
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                     msgToShow = MSG;
                     document.getElementById("alertResult").classList.add('alert-primary');
                 }
-    
+
                 msgToShowHTML.innerHTML = msgToShow;
                 document.getElementById("alertResult").classList.add("show");
             });

@@ -15,7 +15,7 @@
     <script src="js/header.js" defer></script>
 
         <style>
-        
+
         .star-rating {
             display: flex;
             flex-direction: row-reverse;
@@ -24,11 +24,11 @@
             margin: 10px 0;
             flex-wrap:wrap
         }
-        
+
         .star-rating input {
             display: none;
         }
-        
+
         .star-rating label {
             font-size: 2rem;
             color: #ddd;
@@ -36,21 +36,21 @@
             transition: color 0.2s ease-in-out;
             padding: 3px;
         }
-        
+
         .star-rating label:hover,
         .star-rating label:hover ~ label {
             color: #ffc107;
             transform: scale(1.1);
         }
-        
+
         .star-rating input:checked ~ label {
             color: #ffc107;
         }
-        
+
         .star-rating input:checked + label {
             color: #ffc107;
         }
-        
+
         .rating-section {
             background: #f8f9fa;
             padding: 15px;
@@ -58,7 +58,7 @@
             border: 1px solid #e9ecef;
             text-align: center;
         }
-        
+
         .card {
             border: none;
             border-radius: 15px;
@@ -80,11 +80,11 @@
                 text-align: left;
             }
         }
-        
+
     </style>
 </head>
 
-<body>
+<body class="d-none">
     <header id="header" style="margin-bottom: 50px;"></header>
     <main>
         <div class="container">
@@ -114,35 +114,35 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                           <h2 class="fs-4 text-center">Calificar Producto</h2>
-                        
+
                         <!-- Sistema de Estrellas -->
                         <div class="rating-section mb-4">
                            <h6 class="mb-3">¿Cómo calificarías este producto?</h6>
                             <div class="star-rating">
                                 <input type="radio" id="star5" name="rating" value="5">
                                 <label for="star5" class="star">★</label>
-                                
+
                                 <input type="radio" id="star4" name="rating" value="4">
                                 <label for="star4" class="star">★</label>
-                                
+
                                 <input type="radio" id="star3" name="rating" value="3">
                                 <label for="star3" class="star">★</label>
-                                
+
                                 <input type="radio" id="star2" name="rating" value="2">
                                 <label for="star2" class="star">★</label>
-                                
+
                                 <input type="radio" id="star1" name="rating" value="1">
                                 <label for="star1" class="star">★</label>
                             </div>
                         </div>
-                        
+
                         <!-- Comentario -->
                         <div class="mb-4">
                            <h6 class="mb-2">Tu comentario</h6>
-                            <textarea class="form-control" id="comentario" rows="4" 
+                            <textarea class="form-control" id="comentario" rows="4"
                                       placeholder="Comparte tu experiencia con este producto..."></textarea>
                         </div>
-                        
+
                         <!-- Botón Enviar -->
                         <div class="text-start">
                             <button class="btn btn-primary px-4">Enviar Calificación</button>
@@ -152,7 +152,7 @@
             </div>
         </div>
     </section>
-    
+
     <footer class="text-muted">
         <div class="container">
             <p class="float-end">
@@ -172,7 +172,7 @@
     </div>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/init.js"></script>
-    <script src="js/product-info.js" defer></script>
+    <script src="js/product-info.js" type="module"></script>
 </body>
 
 </html>
