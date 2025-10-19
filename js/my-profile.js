@@ -1,66 +1,54 @@
-if (!localStorage.getItem('usuarioAutenticado')) {
-  window.location.replace('./login.html');
-}
+import { authorizedUser, checkSession } from "./util/checkLogin.js";
+
+checkSession(!authorizedUser, './login.html');
 
 const inputImage = document.getElementById('img-input');
 const imgProfile = document.getElementById('img-profile');
-
-const email = document.getElementById('email');
-const nameInput = document.getElementById('name');
-const lastNameInput = document.getElementById('lastname');
-const phoneInput = document.getElementById('phone');
-const imageProfile = document.getElementById('img-profile');
-
-email.value = localStorage.usuarioAutenticado;
-
-let imageBase64 = '';
+const profileForm = document.getElementById('profile-form');
+const profiles = new Map(JSON.parse(localStorage.getItem('profiles')) ?? [])
 
 inputImage.addEventListener('change', (event) => {
-  const image = event.target.files[0];
+    const image = event.target.files[0];
 
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    imageBase64 = reader.result;
-    imgProfile.src = imageBase64;
-  };
-  reader.readAsDataURL(image);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+        imgProfile.src = reader.result;
+    };
+
+    reader.readAsDataURL(image);
 });
 
-if (localStorage.profiles) {
-  const profiles = new Map(JSON.parse(localStorage.profiles));
-  const userProfile = profiles.get(localStorage.usuarioAutenticado);
+profileForm.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-  if (userProfile) {
-    nameInput.value = userProfile.name;
-    lastNameInput.value = userProfile.lastName;
-    phoneInput.value = userProfile.phone;
-    email.value = userProfile.email;
-    imgProfile.src = userProfile.imageSrc;
-    imageBase64 = userProfile.imageSrc;
-  }
+    const { name, lastname, phone, email } = event.target;
+    const profile = {
+        name: name.value,
+        lastName: lastname.value,
+        phone: phone.value,
+        email: email.value,
+        image: imgProfile.src,
+    };
+
+    profiles.set(localStorage.usuarioAutenticado, profile);
+    localStorage.setItem('profiles', JSON.stringify([...profiles]));
+    alert('Perfil guardado con éxito.');
+});
+
+function loadInformation() {
+    const userProfile = profiles.get(localStorage.usuarioAutenticado);
+
+    if (!localStorage.profiles || !userProfile) {
+        email.value = localStorage.usuarioAutenticado;
+        return;
+    }
+
+    profileForm['name'].value = userProfile.name;
+    profileForm['lastname'].value = userProfile.lastName;
+    profileForm['phone'].value = userProfile.phone;
+    profileForm['email'].value = userProfile.email;
+    imgProfile.src = userProfile.image;
 }
 
-const profileForm = document.getElementById('profile-form');
+loadInformation();
 
-const profiles = new Map();
-profileForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  if (imageBase64 === '') {
-    alert('Por favor, seleccione una imagen de perfil.');
-    return;
-  }
-
-  const { name, lastname, phone, email } = event.target;
-  const profile = {
-    name: name.value,
-    lastName: lastname.value,
-    phone: phone.value,
-    email: email.value,
-    imageSrc: imageBase64,
-  };
-
-  profiles.set(localStorage.usuarioAutenticado, profile);
-  localStorage.setItem('profiles', JSON.stringify([...profiles]));
-  alert('Perfil guardado con éxito.');
-});
