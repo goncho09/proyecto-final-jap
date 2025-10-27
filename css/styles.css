@@ -2,127 +2,128 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Verdana', sans-serif;
 }
 
 #theme-toggle {
-  padding: 5px 5px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 15px;
-  background-color: #21bb8d;
-  transition: background-color 0.3s, color 0.3s;
+    padding: 5px 5px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    background-color: #21bb8d;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Modo oscuro */
 
-*.oscuro  {
-  background-color: #1E1E2E;
-  color: #ffffff;
-  transition: background-color 1s, color 1s;
+*.oscuro {
+    background-color: #1E1E2E;
+    color: #ffffff;
+    transition: background-color 1s, color 1s;
 }
 
 
-*.oscuro .product-title   {
-  
-  background-color: #1E1E2E;
-  transition: background-color 1s, color 1s;
-  color: #ffffff;
-  transition: color 1s  ;
+*.oscuro .product-title {
+
+    background-color: #1E1E2E;
+    transition: background-color 1s, color 1s;
+    color: #ffffff;
+    transition: color 1s;
 }
 
 *.oscuro .product-price {
-  background-color: #1E1E2E;
-  transition: background-color 1s, color 1s;
-  color: #ffffff;
-  transition: color 1s  ;
+    background-color: #1E1E2E;
+    transition: background-color 1s, color 1s;
+    color: #ffffff;
+    transition: color 1s;
 }
 
 *.oscuro .product-description {
-  background-color: #1E1E2E;
-  transition: background-color 1s, color 1s;
-  color: #ffffff;
-  transition: color 1s  ;
+    background-color: #1E1E2E;
+    transition: background-color 1s, color 1s;
+    color: #ffffff;
+    transition: color 1s;
 }
 
 *.oscuro .product-sold {
-  background-color: #1E1E2E;
-  transition: background-color 1s, color 1s;
-  color: #ffffff;
-  transition: color 1s  ;
+    background-color: #1E1E2E;
+    transition: background-color 1s, color 1s;
+    color: #ffffff;
+    transition: color 1s;
 }
 
 *.oscuro #comments {
-  background-color: #1E1E2E;
-  transition: background-color 3s, color 3s;
+    background-color: #1E1E2E;
+    transition: background-color 3s, color 3s;
 }
 
 *.oscuro .card-text {
-  background-color: #ffffff;
-  transition: background-color 1s, color 1s;
-  color: #000000;
-  transition: color 1s  ;
+    background-color: #ffffff;
+    transition: background-color 1s, color 1s;
+    color: #000000;
+    transition: color 1s;
 }
 
 *.oscuro .card-title {
-  color: #000000;
-  transition: color 1s  ;
+    color: #000000;
+    transition: color 1s;
 }
 
 *.oscuro .row {
-  color: #000000;
-  transition: color 1s  ;
+    color: #000000;
+    transition: color 1s;
 }
 
 *.oscuro .col-md-3 {
-  color: #ffffff;
-  transition: color 1s  ;
+    color: #ffffff;
+    transition: color 1s;
 }
 
 *.oscuro .col-md-2 {
-  color: #ffffff;
-  transition: color 1s  ;
+    color: #ffffff;
+    transition: color 1s;
 }
 
 *.oscuro .row.mb-3 {
-  color: #ffffff;
-  transition: color 1s  ;
+    color: #ffffff;
+    transition: color 1s;
 }
 
 *.oscuro .col-md-8.order-md-1 {
-  background-color: #1E1e2e;
-  color: #ffffff;
-  transition: background-color 1s, color 1s;
+    background-color: #1E1e2e;
+    color: #ffffff;
+    transition: background-color 1s, color 1s;
 }
 
 *.oscuro .col-md-6.mb-3 label {
-  color: #ffffff;
-  transition: background-color 1s, color 1s;
+    color: #ffffff;
+    transition: background-color 1s, color 1s;
 }
 
 *.oscuro .col-md-12.mb-3 label {
-  color: #ffffff;
-  transition: background-color 1s, color 1s;
+    color: #ffffff;
+    transition: background-color 1s, color 1s;
 }
 
 *.oscuro .col-md-7.mb-3 label {
-  color: #ffffff;
-  transition: background-color 1s, color 1s;
+    color: #ffffff;
+    transition: background-color 1s, color 1s;
 }
 
 *.oscuro .col-md-4.mb-3 label {
-  color: #ffffff;
-  transition: background-color 1s, color 1s;
+    color: #ffffff;
+    transition: background-color 1s, color 1s;
 }
 
 *.oscuro .album.py-5.bg-light .container {
-  background-color: #1E1E2E;
-  transition: background-color 1s, color 1s;
+    background-color: #1E1E2E;
+    transition: background-color 1s, color 1s;
 }
 
-*.oscuro .font-weight-normal.text-end.my-2  {
-  color: #ffffff;
-  transition: color 1s, color 1s;
+*.oscuro .font-weight-normal.text-end.my-2 {
+    color: #ffffff;
+    transition: color 1s, color 1s;
 }
 
 /* Modo oscuro */
@@ -529,4 +530,3 @@ fieldset {
         opacity: 1;
     }
 }
-

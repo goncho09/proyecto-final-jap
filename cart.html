@@ -2,23 +2,63 @@
 <html lang="es">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>eMercado - Todo lo que busques está aquí</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
-    <link href="css/header.css" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>eMercado - Carrito</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/header.css" rel="stylesheet" />
+    <link href="css/cart.css" rel="stylesheet" />
+
     <script src="js/header.js" defer></script>
+    <script src="js/change-theme.js" defer></script>
 </head>
 
-<body class="d-none">
-    <header id="header" style="margin-bottom: 50px;"></header>
-    <main>
-        <div class="container">
-            <div class="alert alert-danger text-center" role="alert">
-                <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+<body>
+    <header id="header"></header>
+    <main class="container">
+        <div id="cart-container">
+
+            <table id="cart-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th style="text-align: center;">Precio</th>
+                        <th style="text-align: center;">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="cart-item">
+                        <td>
+                            <div class="product-info">
+                                <img src="/img/prod50925_1.jpg" alt="Producto 1" class="product-image" />
+                                <p class="product-name">Producto 1</p>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="product-price">USD $10.00</p>
+                        </td>
+                        <td>
+                            <div class="quantity-controls">
+                                <button class="quantity-button decrease-quantity">-</button>
+                                <input type="text" class="quantity-input" value="1" />
+                                <button class="quantity-button increase-quantity">+</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="resumen">
+                <h3>Resumen de la compra</h3>
+                <hr />
+                <p id="subtotal">Subtotal: $10.00</p>
+                <p id="envio">Envío: $2.00</p>
+                <hr />
+                <h4 id="total">Total: $12.00</h4>
+                <button id="buy-button">Finalizar compra</button>
             </div>
         </div>
     </main>
@@ -27,8 +67,10 @@
             <p class="float-end">
                 <a href="#">Volver arriba</a>
             </p>
-            <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a
-                    Programar</a></p>
+            <p>
+                Este sitio forma parte de
+                <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a>
+            </p>
         </div>
     </footer>
     <div id="spinner-wrapper">

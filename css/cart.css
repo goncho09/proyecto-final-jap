@@ -1,0 +1,123 @@
+#cart-container {
+    display: flex;
+    margin-top: 100px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#cart-table {
+    width: 65%;
+    border-collapse: collapse;
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#cart-table tr {
+    height: 100px
+}
+
+
+#cart-table th,
+#cart-table td {
+    vertical-align: middle;
+    padding: 8px 12px;
+    line-height: 1.2;
+}
+
+#cart-table p {
+    margin: 0;
+}
+
+#cart-table .cart-item {
+    border: 1px solid #696969;
+    border-radius: 15px;
+    background-color: #f2f2f2;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#cart-table .product-info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0;
+}
+
+#cart-table .product-image {
+    width: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+#cart-table .product-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+#cart-table .quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cart-table .quantity-button {
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+    border: none;
+    background-color: #333333;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#cart-table .quantity-input {
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    font-size: 1rem;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#resumen {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 30%;
+}
+
+#resumen hr {
+    width: 100%;
+    border: 1px solid #000;
+    margin: 10px 0;
+}
+
+#resumen p {
+    font-size: 1.2rem;
+    margin: 5px 0;
+}
+
+#resumen #buy-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #333333;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+#resumen #buy-button:hover {
+    background-color: #555555;
+}
