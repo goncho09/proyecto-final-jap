@@ -2,66 +2,50 @@ import { authorizedUser, checkSession } from "./util/checkLogin.js";
 
 checkSession(!authorizedUser, './login.html');checkSession(!authorizedUser, './login.html');
 
-
-//  Función para actualizar subtotal
-function updateSubtotal(inputElement) {
-    const cartItem = inputElement.closest('.cart-item');
+// Función para actualizar el subtotal
+function updateSubtotal() {
+    const priceElement = document.querySelector('.product-price');
+    const quantityInput = document.querySelector('.quantity-input');
+    const subtotalElement = document.getElementById('subtotal');
+    const totalElement = document.getElementById('total');
+    const envioElement = document.getElementById('envio');
     
-    if (!cartItem) {
-        console.warn('No se encontró el elemento del carrito');
-        return;
-    }
-    
-    // Obtener precio del producto
-    const price = parseFloat(cartItem.dataset.productPrice);
-    
-    // Obtener y validar cantidad
-    let quantity = parseInt(inputElement.value);
-    if (isNaN(quantity) || quantity < 1) {
-        quantity = 1;
-        inputElement.value = 1;
-    }
+    // Extraer el precio 
+    const price = parseFloat(priceElement.textContent.replace('USD $', ''));
+    const quantity = parseInt(quantityInput.value);
     
     // Calcular nuevo subtotal
     const newSubtotal = price * quantity;
     
-    // Actualizar display
-    const subtotalElement = cartItem.querySelector('.subtotal');
-    if (subtotalElement) {
-        subtotalElement.textContent = newSubtotal.toFixed(2);
-    }
+    // Extraer costo de envío
+    const envio = parseFloat(envioElement.textContent.replace('Envío: $', ''));
     
-    // Actualizar total del carrito
-    updateCartTotal();
+    // Calcular nuevo total
+    const newTotal = newSubtotal + envio;
+    
+    // Actualizar los elementos en el DOM
+    subtotalElement.textContent = `Subtotal: $${newSubtotal.toFixed(2)}`;
+    totalElement.textContent = `Total: $${newTotal.toFixed(2)}`;
 }
 
-// Función para actualizar el total general del carrito
-function updateCartTotal() {
-    const allSubtotals = document.querySelectorAll('.subtotal');
-    let grandTotal = 0;
-    
-    allSubtotals.forEach(subtotalElement => {
-        grandTotal += parseFloat(subtotalElement.textContent) || 0;
-    });
-    
-    const totalElement = document.querySelector('.cart-total');
-    if (totalElement) {
-        totalElement.textContent = grandTotal.toFixed(2);
-    }
-}
-
-// Inicializar event listeners cuando el DOM esté listo
+// Agregar event listeners cuando la página cargue
 document.addEventListener('DOMContentLoaded', function() {
-    const quantityInputs = document.querySelectorAll('.quantity-input');
-    
-    quantityInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            updateSubtotal(this);
-        });
-        
-        // Actualizar en tiempo real
-        input.addEventListener('input', function() {
-            updateSubtotal(this);
-        });
+    // Botón aumentar
+    document.querySelector('.increase-quantity').addEventListener('click', function() {
+        const input = this.parentElement.querySelector('.quantity-input');
+        input.value = parseInt(input.value) + 1;
+        updateSubtotal();
     });
+    
+    // Botón disminuir
+    document.querySelector('.decrease-quantity').addEventListener('click', function() {
+        const input = this.parentElement.querySelector('.quantity-input');
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+            updateSubtotal();
+        }
+    });
+    
+    // Cambio directo en el input
+    document.querySelector('.quantity-input').addEventListener('input', updateSubtotal);
 });
