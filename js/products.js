@@ -102,6 +102,21 @@ searchInput.addEventListener('input', (event) => {
         }
     });
 });
+const btnFiltrar = document.getElementById('btnFiltrar')
+const btnClean = document.getElementById('btnLimpiar')
+const order = document.getElementById('ordenar')
+
+btnFiltrar.addEventListener('click', () => {
+    filtrarProductos();
+})
+
+btnClean.addEventListener('click', () => {
+    limpiarFiltros();
+})
+
+order.addEventListener('click', (event) => {
+    ordenarProductos(event.target.value);
+});
 
 function filtrarProductos() {
     const minInput = document.getElementById("precioMin");
@@ -130,8 +145,7 @@ function limpiarFiltros() {
     });
 }
 
-function ordenarProductos() {
-    const tipo = document.getElementById("ordenar").value;
+function ordenarProductos(tipo) {
 
     if (tipo === "precioAsc") {
         Array.from(productosContainer).sort((a, b) => {
