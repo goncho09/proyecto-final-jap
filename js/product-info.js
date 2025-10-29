@@ -53,11 +53,11 @@ function renderRelatedProducts(relatedProducts) {
   relatedSection.innerHTML = relatedProducts
     .map(
       (p) => `
-      <div class="card m-2 related-product text-center" 
+      <div class="card m-2 related-product text-center" style="width: 18rem;"
            onclick="localStorage.setItem('productID', ${p.id})">
         <a href="./product-info.html">
-          <img src="${p.image}" alt="${p.name}" class="card-img-top related-img">
-          <span>${p.name}</span>
+          <img src="${p.image}" alt="${p.name}" class="card-img-top">
+          <span style="margin-top:10px">${p.name}</span>
         </a>
       </div>
     `
