@@ -3,45 +3,46 @@
 
 <body>
     <nav>
-        <div class="nav-left">
-            <a href="my-profile.html">
-                <h1 id="userDisplay" style="font-size: 1rem;margin: 0 0 0 10px;"></h1>
+    <div class="nav-left">
+        <a href="my-profile.html">
+            <h1 id="userDisplay" style="font-size: 1rem;margin: 0 0 0 10px;"></h1>
+        </a>
+    </div>
+
+    <div class="nav-right">
+        <button class="navbar-toggler" aria-label="Toggle navigation" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+    </div>
+
+    <ul id="navbarSupportedContent">
+        <li>
+            <label for="mode" >
+                <span id="theme-toggle">🌙 Modo oscuro</span>
+                <input type="checkbox" id="mode" />
+            </label>
+        </li>
+        <li>
+            <a href="index.html">Inicio</a>
+        </li>
+        <li>
+            <a href="categories.html">Categorías</a>
+        </li>
+        <li>
+            <a href="sell.html">Vender</a>
+        </li>
+        <li>
+            <a class="position-relative" style="font-size: 1.875rem;" href="cart.html">
+                🛒
+                <span class="badge bg-danger" id="number-products"></span>
             </a>
-        </div>
-
-        <div class="nav-right">
-            <button class="navbar-toggler" aria-label="Toggle navigation" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-        </div>
-
-        <ul id="navbarSupportedContent">
-            <li>
-                <button id="theme-toggle" onclick=" initThemeToggle()">🌙/☀️</button>
-            </li>
-            <li>
-                <a href="index.html">Inicio</a>
-            </li>
-            <li>
-                <a href="categories.html">Categorías</a>
-            </li>
-            <li>
-                <a href="sell.html">Vender</a>
-            </li>
-            <li>
-                <a class="position-relative" style="font-size: 1.875rem;" href="cart.html">
-                    🛒
-                    <span class="badge bg-danger" id="number-products"></span>
-                </a>
-            </li>
-            <li>
-                <a href="#" id="cerrar-sesion" onclick="cerrarSesion()">Cerrar Sesión</a>
-            </li>
-        </ul>
-    </nav>
+        </li>
+        <li>
+            <a href="#" id="cerrar-sesion" onclick="cerrarSesion()">Cerrar Sesión</a>
+        </li>
+    </ul>
+</nav>
 </body>
-
-</html>

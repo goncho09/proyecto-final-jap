@@ -1,32 +1,48 @@
-function initThemeToggle(buttonId = "theme-toggle") {
-  const boton = document.getElementById(buttonId);
+function initializeTheme() {
+    const tema = JSON.parse(localStorage.getItem('tema')) ?? {}
 
+    const labelMode = document.getElementById('theme-toggle');
+    const checkButton = document.querySelector('#mode');
 
-  // Función que aplica el tema guardado o el predeterminado
-  const aplicarTema = (tema) => {
-    if (tema === "oscuro") {
-      document.body.classList.add("oscuro");
-      boton.textContent = "☀️ Modo claro";
-    } else {
-      document.body.classList.remove("oscuro");
-      boton.textContent = "🌙 Modo oscuro";
+    if (!labelMode && !checkButton) {
+        setTimeout(initializeTheme, 100); // Reintentar en 100ms
+        return;
     }
-  };
 
-  // Al cargar la página, aplicamos el tema guardado (o el del sistema)
-  const temaGuardado = localStorage.getItem("tema");
-  const temaInicial = temaGuardado 
-  aplicarTema(temaInicial);
+    if (tema) {
+        applicar(tema.checked, labelMode)
+        checkButton.checked = tema.checked;
+    }
 
-  // Escuchar clic en el botón para alternar tema
-  boton.addEventListener("click", () => {
-    const nuevoTema = document.body.classList.contains("oscuro")
-      ? "claro"
-      : "oscuro";
-    aplicarTema(nuevoTema);
-    localStorage.setItem("tema", nuevoTema);
-  });
+    checkButton.addEventListener('change', () => {
+
+        const nuevoTema = document.body.classList.contains("oscuro")
+            ? "claro"
+            : "oscuro";
+
+        applicar(checkButton.checked, labelMode)
+        localStorage.setItem('tema', JSON.stringify(
+            {
+                theme: nuevoTema,
+                checked: checkButton.checked
+            }
+        ));
+    });
+}
+
+function applicar(check, labelMode) {
+
+    if (!check) {
+        document.body.classList.add("claro");
+        document.body.classList.remove("oscuro");
+        labelMode.textContent = "🌙 Modo Oscuro";
+
+        return;
+    }
+    document.body.classList.add("oscuro");
+    document.body.classList.remove("claro");
+    labelMode.textContent = "☀️ Modo Claro";
 }
 
 // Esperar a que cargue el DOM y ejecutar la función
-document.addEventListener("DOMContentLoaded", () => initThemeToggle());
+document.addEventListener("DOMContentLoaded", () => initializeTheme());

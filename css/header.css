@@ -78,6 +78,20 @@ span#number-products {
     font-weight: 200;
 }
 
+#theme-toggle {
+    padding: 5px 5px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    background-color: #21bb8d;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+input#mode {
+    display: none;
+}
+
 /* Estilo menú móvil */
 @media (max-width: 768px) {
     nav ul {
