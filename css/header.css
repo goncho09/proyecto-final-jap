@@ -67,6 +67,14 @@ nav ul li a:hover {
     transition: all 0.3s;
 }
 
+span#number-products {
+    font-size: 12px;
+    position: absolute;
+    left: 26px;
+    border-radius: 10px;
+    font-weight: 200;
+}
+
 /* Estilo menú móvil */
 @media (max-width: 768px) {
     nav ul {
@@ -91,5 +99,9 @@ nav ul li a:hover {
 
     .navbar-toggler {
         display: flex;
+    }
+
+    span#number-products {
+        left: 48px;
     }
 }
