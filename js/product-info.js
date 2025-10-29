@@ -1,14 +1,16 @@
-import { authorizedUser, checkSession } from "./util/checkLogin.js";
+import { authorizedUser, checkSession } from './util/checkLogin.js';
 
 checkSession(!authorizedUser, './login.html');
-const productID = localStorage.getItem('productID');
 
+const productID = localStorage.getItem('productID');
 getJSONData(`${PRODUCT_INFO_URL}${productID}${EXT_TYPE}`)
 .then((response) => {
     const data = response.data;
 
-    loadingProductInfo(data)
-    loadingProductsRelated(data.relatedProducts);
+// --- Cargar producto principal ---
+getJSONData(`${PRODUCT_INFO_URL}${productID}${EXT_TYPE}`).then(({ data }) => {
+  renderProductInfo(data);
+  renderRelatedProducts(data.relatedProducts);
 });
 
 function loadingProductInfo({ images, name, category, currency, cost, description, soldCount }) {
@@ -38,36 +40,29 @@ function loadingProductInfo({ images, name, category, currency, cost, descriptio
     soldCountElement.textContent = `${soldCount} vendidos`;
 }
 
-function loadingProductsRelated(relatedProducts) {
-    const relatedProductsSection = document.getElementById('related-products');
-    relatedProducts.forEach(product => {
+// --- Render de productos relacionados ---
+function renderRelatedProducts(relatedProducts) {
+  const relatedSection = document.getElementById('related-products');
 
-        const card = document.createElement('div');
-        const link = document.createElement('a');
-        const image = document.createElement('img');
-        const title = document.createElement('span');
-
-        card.className = 'card m-2 related-product text-center';
-
-        card.addEventListener('click', () => localStorage.setItem('productID', product.id));
-
-        link.href = './product-info.html';
-        image.src = product.image;
-        image.className = 'card-img-top related-img';
-        image.alt = product.name;
-
-        title.textContent = product.name;
-
-        card.appendChild(link);
-        link.appendChild(image);
-        link.appendChild(title);
-        relatedProductsSection.appendChild(card);
-    });
+  relatedSection.innerHTML = relatedProducts
+    .map(
+      (p) => `
+      <div class="card m-2 related-product text-center" 
+           onclick="localStorage.setItem('productID', ${p.id})">
+        <a href="./product-info.html">
+          <img src="${p.image}" alt="${p.name}" class="card-img-top related-img">
+          <span>${p.name}</span>
+        </a>
+      </div>
+    `
+    )
+    .join('');
 }
 
+// --- Comentarios ---
 const commentsSection = document.getElementById('comments-section');
-// Array para almacenar comentarios simulados //
 let simulatedComments = [];
+
 
 function mostrarEstrellas(rating) {
     let estrellas = '';
