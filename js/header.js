@@ -27,7 +27,7 @@ function loadHeader() {
 
             const numberProducts = document.getElementById('number-products');
 
-            numberProducts.textContent = !localStorage.Compras ? 0 : JSON.parse(localStorage.Compras).length;
+            numberProducts.textContent = !localStorage.carrito ? 0 : JSON.parse(localStorage.carrito).length;
         })
         .catch((err) => console.error('Error cargando el header:', err))
         .finally(() => {
