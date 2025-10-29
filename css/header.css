@@ -10,10 +10,13 @@ nav {
     z-index: 1000;
     background-color: #212529;
     color: #fff;
+    border-bottom: 1px solid #fff;
 }
 
 .nav-left a {
     color: #fff;
+    outline: none;
+    border: none;
 }
 
 .nav-left a:hover {

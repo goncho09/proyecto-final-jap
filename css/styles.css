@@ -421,8 +421,9 @@ a.custom-card:hover {
 /* Estilo mi perfil */
 
 .profile-container {
-    background-color: #1E3A5F;
+    background-color: #212529;
     height: 100px;
+
 }
 
 .profile-banner {
@@ -438,6 +439,7 @@ a.custom-card:hover {
 }
 
 .profile-img {
+    margin-top: 10px;
     position: relative;
     width: 150px;
     height: 150px;
