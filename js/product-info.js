@@ -1,10 +1,10 @@
-import {  authorizedUser, checkSession} from "./util/checkLogin.js";
+import { authorizedUser, checkSession } from "./util/checkLogin.js";
 
 checkSession(!authorizedUser, './login.html');
 const productID = localStorage.getItem('productID');
 
-getJSONData(`${PRODUCT_INFO_URL}${productID}${EXT_TYPE}
-`).then((response) => {
+getJSONData(`${PRODUCT_INFO_URL}${productID}${EXT_TYPE}`)
+.then((response) => {
     const data = response.data;
 
     loadingProductInfo(data)
@@ -12,22 +12,13 @@ getJSONData(`${PRODUCT_INFO_URL}${productID}${EXT_TYPE}
 });
 
 function loadingProductInfo({ images, name, category, currency, cost, description, soldCount }) {
-    const productInfo = document.getElementById('product-info');
 
-    const container = document.createElement('div');
-    container.className = 'product-container';
+    const [mainImage, thumbnailContainer] = document.getElementById('image-container').children
+    const [title, categoryElement, price, descriptionElement, soldCountElement] = document.getElementById('product-details').children;
 
-    const imageContainer = document.createElement('div');
-    imageContainer.className = 'image-container';
-
-    const mainImage = document.createElement('img');
     mainImage.id = 'mainImage';
     mainImage.src = images[0];
     mainImage.alt = name;
-    mainImage.className = 'img-fluid main-image';
-
-    const thumbnailContainer = document.createElement('div');
-    thumbnailContainer.className = 'thumbnail-container';
 
     images.forEach(imageUrl => {
         const thumbnail = document.createElement('img');
@@ -40,40 +31,11 @@ function loadingProductInfo({ images, name, category, currency, cost, descriptio
         thumbnailContainer.appendChild(thumbnail);
     });
 
-    const detailsContainer = document.createElement('div');
-    detailsContainer.className = 'product-details';
-
-    const title = document.createElement('h1');
-    title.className = 'product-title';
     title.textContent = name;
-
-    const categoryElement = document.createElement('h6');
     categoryElement.textContent = category;
-
-    const price = document.createElement('h3');
-    price.className = 'product-price';
     price.textContent = `${currency} ${cost}`;
-
-    const desc = document.createElement('p');
-    desc.className = 'product-description';
-    desc.textContent = description;
-
-    const sold = document.createElement('p');
-    sold.className = 'product-sold';
-    sold.textContent = `${soldCount} vendidos`;
-
-    imageContainer.appendChild(mainImage);
-    imageContainer.appendChild(thumbnailContainer);
-    container.appendChild(imageContainer);
-
-    detailsContainer.appendChild(title);
-    detailsContainer.appendChild(categoryElement);
-    detailsContainer.appendChild(price);
-    detailsContainer.appendChild(desc);
-    detailsContainer.appendChild(sold);
-    container.appendChild(detailsContainer);
-
-    productInfo.appendChild(container);
+    descriptionElement.textContent = description;
+    soldCountElement.textContent = `${soldCount} vendidos`;
 }
 
 function loadingProductsRelated(relatedProducts) {
@@ -123,69 +85,64 @@ function mostrarEstrellas(rating) {
 getJSONData(
     `${PRODUCT_INFO_COMMENTS_URL}${productID}${EXT_TYPE}`
 ).then((response) => {
-    const comments = response.data;
-
-    // Función para renderizar todos los comentarios //
-    function renderAllComments() {
-        const allComments = comments.concat(simulatedComments);
-        commentsSection.innerHTML = allComments
-            .map(
-                (comment) => `
-      <div class="d-flex flex-column ">
-      <div class="d-flex  align-items-center justify-content-between">
-        <h5 class="fw-bold m-0" style="font-size: 1.2rem;" id="comment-user">${comment.user
-                    }:</h5>
-        <p class="text-muted m-0" style="white-space: nowrap;font-size:1rem">${comment.dateTime
-                    }</p>
-      </div>
-        <div class="d-flex flex-column">
-        <p style="font-size: 1rem;margin:5px 0 5px 0;">
-            ${mostrarEstrellas(comment.score)}
-        </p>
-        <p  style="font-size: 1rem;margin:0">${comment.description}</p>
-        </div>
-      </div>
-      <hr class="my-2" style="border-top: 1px solid #eee;">
-    `
-            )
-            .join('');
-    }
-
+    simulatedComments = response.data;
     // Render inicial con los comentarios originales //
     renderAllComments();
+});
 
-    const sendButton = document.querySelector('.btn.btn-primary'); // botón de enviar
-    sendButton.addEventListener('click', (e) => {
-        e.preventDefault(); // prevenir comportamiento por defecto del botón
+// Función para renderizar todos los comentarios //
+function renderAllComments() {
+    commentsSection.innerHTML = simulatedComments
+    .map(
+        (comment) =>
+        `
+            <div class="d-flex flex-column ">
+                <div class="d-flex  align-items-center justify-content-between">
+                    <h5 class="fw-bold m-0" style="font-size: 1.2rem;" id="comment-user">${comment.user}:</h5>
+                    <p class="text-muted m-0" style="white-space: nowrap;font-size:1rem">${comment.dateTime}</p>
+                </div>
+                <div class="d-flex flex-column">
+                    <p style="font-size: 1rem;margin:5px 0 5px 0;">
+                        ${mostrarEstrellas(comment.score)}
+                    </p>
+                    <p  style="font-size: 1rem;margin:0">${comment.description}</p>
+                    </div>
+                </div>
+            <hr class="my-2" style="border-top: 1px solid #eee;">
+    `).join('');
+}
 
-        const ratingInput = document.querySelector(
-            'input[name="rating"]:checked'
-        ); // input de calificación
-        const commentInput = document.querySelector('#comentario'); // textarea de comentario
+const sendButton = document.querySelector('.btn.btn-primary'); // botón de enviar
+sendButton.addEventListener('click', (e) => {
+    e.preventDefault(); // prevenir comportamiento por defecto del botón
 
-        if (!ratingInput) {
-            alert('Selecciona una calificación');
-            return;
-        }
+    const ratingInput = document.querySelector(
+        'input[name="rating"]:checked'
+    ); // input de calificación
+    const commentInput = document.querySelector('#comentario'); // textarea de comentario
 
-        const val = parseInt(ratingInput.value, 10);
-        const desc = commentInput.value.trim() || 'Comentario simulado';
-        const now = new Date();
+    if (!ratingInput) {
+        alert('Selecciona una calificación');
+        return;
+    }
 
-        simulatedComments.push({
-            user: localStorage.getItem('usuarioAutenticado') || 'Desconocido',
-            score: val,
-            description: desc,
-            dateTime:
-                now.toISOString().split('T')[0] +
-                ' ' +
-                now.toTimeString().split(' ')[0],
-        });
-        // Renderizar todos los comentarios //
-        renderAllComments();
+    const val = parseInt(ratingInput.value, 10);
+    const desc = commentInput.value.trim() || 'Comentario simulado';
+    const now = new Date();
 
-            // Limpiar inputs //
-            ratingInput.checked = false;
-            commentInput.value = '';
-        });
+    simulatedComments.push({
+        user: localStorage.getItem('usuarioAutenticado') || 'Desconocido',
+        score: val,
+        description: desc,
+        dateTime:
+            now.toISOString().split('T')[0] +
+            ' ' +
+            now.toTimeString().split(' ')[0],
     });
+    // Renderizar todos los comentarios //
+    renderAllComments();
+
+    // Limpiar inputs //
+    ratingInput.checked = false;
+    commentInput.value = '';
+});
