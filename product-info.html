@@ -90,8 +90,23 @@
         <div class="container">
             <div id="product-info" class="d-flex flex-column flex-md-row mt-5">
                 <!-- La información del producto se cargará aquí dinámicamente -->
+                <div class="product-container">
+                    <div class="image-container" id="image-container">
+                        <img src="" alt="" id="mainImage" class="img-fluid main-image">
+
+                        <div class="thumbnail-container" id="thumbnail-container">
+                        </div>
+                    </div>
+                    <div class="product-details" id="product-details">
+                        <h1 class="product-title">Title</h1>
+                        <h6>Category</h6>
+                        <h3 class="product-price">Price</h3>
+                        <p class="product-description">Description</p>
+                        <p class="product-sold">Vendidos</p>
+                        <button id="buy-button">Comprar</button>
+                    </div>
+                </div>
             </div>
-            <button id="buy-button" onclick="guardarProductoCarrito()">Comprar</button>
         </div>
         <div class="container d-flex mt-4 flex-lg-row flex-column">
             <div class="d-flex flex-column w-50 align-items-center" id="comments">

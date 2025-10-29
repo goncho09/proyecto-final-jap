@@ -45,16 +45,12 @@
 }
 
 #buy-button  {
-    width: 10%;
     padding: 10px;
     font-size: 120%;
     border-radius: 10px;
     border: none;
     background-color : #1e05ff;
     color: #ffffff;
-    position: absolute;
-    top: 330px;
-    right: 30%;
 }
 
 @media screen and (max-width: 1024px) {

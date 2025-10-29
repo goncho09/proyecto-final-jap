@@ -3,6 +3,9 @@ import { authorizedUser, checkSession } from './util/checkLogin.js';
 checkSession(!authorizedUser, './login.html');
 
 const productID = localStorage.getItem('productID');
+getJSONData(`${PRODUCT_INFO_URL}${productID}${EXT_TYPE}`)
+.then((response) => {
+    const data = response.data;
 
 // --- Cargar producto principal ---
 getJSONData(`${PRODUCT_INFO_URL}${productID}${EXT_TYPE}`).then(({ data }) => {
@@ -10,46 +13,31 @@ getJSONData(`${PRODUCT_INFO_URL}${productID}${EXT_TYPE}`).then(({ data }) => {
   renderRelatedProducts(data.relatedProducts);
 });
 
-// --- Render de producto principal ---
-function renderProductInfo({
-  images,
-  name,
-  category,
-  currency,
-  cost,
-  description,
-  soldCount,
-}) {
-  const productInfo = document.getElementById('product-info');
+function loadingProductInfo({ images, name, category, currency, cost, description, soldCount }) {
 
-  productInfo.innerHTML = `
-    <div class="product-container d-flex flex-column flex-md-row gap-4 align-items-center">
-      <div class="image-container text-center">
-        <img id="mainImage" src="${
-          images[0]
-        }" alt="${name}" class="img-fluid main-image mb-3">
+    const [mainImage, thumbnailContainer] = document.getElementById('image-container').children
+    const [title, categoryElement, price, descriptionElement, soldCountElement] = document.getElementById('product-details').children;
 
-        <div class="thumbnail-container d-flex flex-wrap justify-content-center gap-2">
-          ${images
-            .map(
-              (img) => `
-              <img src="${img}" alt="${name}" class="thumbnail" 
-                onclick="document.getElementById('mainImage').src='${img}'">
-            `
-            )
-            .join('')}
-        </div>
-      </div>
+    mainImage.id = 'mainImage';
+    mainImage.src = images[0];
+    mainImage.alt = name;
 
-      <div class="product-details">
-        <h1 class="product-title">${name}</h1>
-        <h6 class="text-muted">${category}</h6>
-        <h3 class="product-price">${currency} ${cost}</h3>
-        <p class="product-description">${description}</p>
-        <p class="product-sold">${soldCount} vendidos</p>
-      </div>
-    </div>
-  `;
+    images.forEach(imageUrl => {
+        const thumbnail = document.createElement('img');
+        thumbnail.src = imageUrl;
+        thumbnail.alt = name;
+        thumbnail.className = 'thumbnail';
+        thumbnail.addEventListener('click', () => {
+            mainImage.src = imageUrl;
+        });
+        thumbnailContainer.appendChild(thumbnail);
+    });
+
+    title.textContent = name;
+    categoryElement.textContent = category;
+    price.textContent = `${currency} ${cost}`;
+    descriptionElement.textContent = description;
+    soldCountElement.textContent = `${soldCount} vendidos`;
 }
 
 // --- Render de productos relacionados ---
@@ -75,62 +63,81 @@ function renderRelatedProducts(relatedProducts) {
 const commentsSection = document.getElementById('comments-section');
 let simulatedComments = [];
 
-getJSONData(`${PRODUCT_INFO_COMMENTS_URL}${productID}${EXT_TYPE}`).then(
-  ({ data: comments }) => {
-    const renderComments = () => {
-      const all = [...comments, ...simulatedComments];
-      commentsSection.innerHTML = all
-        .map(
-          (c) => `
-        <div class="d-flex flex-column mb-2">
-          <div class="d-flex align-items-center justify-content-between">
-            <h5 class="fw-bold m-0" style="font-size: 1.2rem;">${c.user}:</h5>
-            <p class="text-muted m-0" style="white-space: nowrap; font-size: 1rem;">${
-              c.dateTime
-            }</p>
-          </div>
-          <div>
-            <p class="m-0" style="font-size: 1rem;">${renderStars(c.score)}</p>
-            <p class="m-0" style="font-size: 1rem;">${c.description}</p>
-          </div>
-          <hr class="my-2" style="border-top: 1px solid #eee;">
-        </div>
-      `
-        )
-        .join('');
-    };
 
-    renderComments();
+function mostrarEstrellas(rating) {
+    let estrellas = '';
 
-    // Envío de comentario
-    document
-      .querySelector('.btn.btn-primary')
-      .addEventListener('click', (e) => {
-        e.preventDefault();
-
-        const rating = document.querySelector('input[name="rating"]:checked');
-        const commentText = document.getElementById('comentario').value.trim();
-
-        if (!rating) return alert('Selecciona una calificación');
-
-        simulatedComments.push({
-          user: localStorage.getItem('usuarioAutenticado') || 'Desconocido',
-          score: +rating.value,
-          description: commentText || 'Comentario simulado',
-          dateTime: new Date().toISOString().replace('T', ' ').split('.')[0],
-        });
-
-        renderComments();
-        rating.checked = false;
-        document.getElementById('comentario').value = '';
-      });
-  }
-);
-
-function renderStars(score) {
-  return Array.from({ length: 5 }, (_, i) =>
-    i < score
-      ? '<span class="fa fa-star checked"></span>'
-      : '<span class="fa fa-star"></span>'
-  ).join('');
+    for (let i = 0; i < 5; i++) {
+        if (i < rating) {
+            estrellas += '<span class="fa fa-star checked"></span>'; // estrella llena
+        } else {
+            estrellas += '<span class="fa fa-star"></span>'; // estrella vacía
+        }
+    }
+    return estrellas;
 }
+
+getJSONData(
+    `${PRODUCT_INFO_COMMENTS_URL}${productID}${EXT_TYPE}`
+).then((response) => {
+    simulatedComments = response.data;
+    // Render inicial con los comentarios originales //
+    renderAllComments();
+});
+
+// Función para renderizar todos los comentarios //
+function renderAllComments() {
+    commentsSection.innerHTML = simulatedComments
+    .map(
+        (comment) =>
+        `
+            <div class="d-flex flex-column ">
+                <div class="d-flex  align-items-center justify-content-between">
+                    <h5 class="fw-bold m-0" style="font-size: 1.2rem;" id="comment-user">${comment.user}:</h5>
+                    <p class="text-muted m-0" style="white-space: nowrap;font-size:1rem">${comment.dateTime}</p>
+                </div>
+                <div class="d-flex flex-column">
+                    <p style="font-size: 1rem;margin:5px 0 5px 0;">
+                        ${mostrarEstrellas(comment.score)}
+                    </p>
+                    <p  style="font-size: 1rem;margin:0">${comment.description}</p>
+                    </div>
+                </div>
+            <hr class="my-2" style="border-top: 1px solid #eee;">
+    `).join('');
+}
+
+const sendButton = document.querySelector('.btn.btn-primary'); // botón de enviar
+sendButton.addEventListener('click', (e) => {
+    e.preventDefault(); // prevenir comportamiento por defecto del botón
+
+    const ratingInput = document.querySelector(
+        'input[name="rating"]:checked'
+    ); // input de calificación
+    const commentInput = document.querySelector('#comentario'); // textarea de comentario
+
+    if (!ratingInput) {
+        alert('Selecciona una calificación');
+        return;
+    }
+
+    const val = parseInt(ratingInput.value, 10);
+    const desc = commentInput.value.trim() || 'Comentario simulado';
+    const now = new Date();
+
+    simulatedComments.push({
+        user: localStorage.getItem('usuarioAutenticado') || 'Desconocido',
+        score: val,
+        description: desc,
+        dateTime:
+            now.toISOString().split('T')[0] +
+            ' ' +
+            now.toTimeString().split(' ')[0],
+    });
+    // Renderizar todos los comentarios //
+    renderAllComments();
+
+    // Limpiar inputs //
+    ratingInput.checked = false;
+    commentInput.value = '';
+});
