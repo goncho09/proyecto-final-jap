@@ -14,7 +14,7 @@
     <link href="css/cart.css" rel="stylesheet" />
 
     <script src="js/header.js" defer></script>
-    <script src="js/change-theme.js" defer></script>
+    <!-- <script src="js/change-theme.js" defer></script> -->
 </head>
 
 <body>
@@ -30,37 +30,22 @@
                         <th style="text-align: center;">Cantidad</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="cart-item">
-                        <td>
-                            <div class="product-info">
-                                <img src="/img/prod50925_1.jpg" alt="Producto 1" class="product-image" />
-                                <p class="product-name">Producto 1</p>
-                            </div>
-                        </td>
-                        <td>
-                            <p class="product-price">USD $10.00</p>
-                        </td>
-                        <td>
-                            <div class="quantity-controls">
-                                <button class="quantity-button decrease-quantity">-</button>
-                                <input type="text" class="quantity-input" value="1" />
-                                <button class="quantity-button increase-quantity">+</button>
-                            </div>
-                        </td>
+                <tbody id="cart-products-body">
+                    <tr id="no-products" style="display: none;">
+                        <td colspan="3" style="text-align: center;">No hay productos en el carrito.</td>
                     </tr>
                 </tbody>
             </table>
             <div id="resumen">
                 <h3>Resumen de la compra</h3>
                 <hr />
-                <p id="subtotal">Subtotal: $10.00</p>
-                <p id="envio">Envío: $2.00</p>
+                <p id="subtotal">Subtotal: $0</p>
                 <hr />
-                <h4 id="total">Total: $12.00</h4>
-                <button id="buy-button">Finalizar compra</button>
+                <h4 id="total">Total $0</h4>
+                <button id="buy-button" disabled>Finalizar compra</button>
             </div>
         </div>
+
     </main>
     <footer class="text-muted">
         <div class="container">

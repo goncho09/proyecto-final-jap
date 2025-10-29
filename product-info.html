@@ -16,15 +16,14 @@
     <script src="js/change-theme.js" defer></script>
     <script src="js/pucharseitem.js" defer></script>
 
-        <style>
-
+    <style>
         .star-rating {
             display: flex;
             flex-direction: row-reverse;
             justify-content: center;
             gap: 5px;
             margin: 10px 0;
-            flex-wrap:wrap
+            flex-wrap: wrap
         }
 
         .star-rating input {
@@ -40,16 +39,16 @@
         }
 
         .star-rating label:hover,
-        .star-rating label:hover ~ label {
+        .star-rating label:hover~label {
             color: #ffc107;
             transform: scale(1.1);
         }
 
-        .star-rating input:checked ~ label {
+        .star-rating input:checked~label {
             color: #ffc107;
         }
 
-        .star-rating input:checked + label {
+        .star-rating input:checked+label {
             color: #ffc107;
         }
 
@@ -66,13 +65,13 @@
             border-radius: 15px;
         }
 
-               @media (min-width: 768px) {
+        @media (min-width: 768px) {
             .star-rating {
                 justify-content: flex-start;
                 gap: 8px;
             }
 
-            .star-rating  label {
+            .star-rating label {
                 font-size: 2.5rem;
                 padding: 5px;
             }
@@ -82,18 +81,17 @@
                 text-align: left;
             }
         }
-
     </style>
 </head>
 
 <body class="d-none">
     <header id="header" style="margin-bottom: 50px;"></header>
-    <main>
+    <main class="pb-5">
         <div class="container">
             <div id="product-info" class="d-flex flex-column flex-md-row mt-5">
                 <!-- La información del producto se cargará aquí dinámicamente -->
             </div>
-            <button id="buy-button" onclick="redirigiryguardar()">Comprar</button>
+            <button id="buy-button" onclick="guardarProductoCarrito()">Comprar</button>
         </div>
         <div class="container d-flex mt-4 flex-lg-row flex-column">
             <div class="d-flex flex-column w-50 align-items-center" id="comments">
@@ -112,70 +110,70 @@
         </div>
 
         <section class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                          <h2 class="fs-4 text-center">Calificar Producto</h2>
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h2 class="fs-4 text-center">Calificar Producto</h2>
 
-                        <!-- Sistema de Estrellas -->
-                        <div class="rating-section mb-4">
-                           <h6 class="mb-3">¿Cómo calificarías este producto?</h6>
-                            <div class="star-rating">
-                                <input type="radio" id="star5" name="rating" value="5">
-                                <label for="star5" class="star">★</label>
+                            <!-- Sistema de Estrellas -->
+                            <div class="rating-section mb-4">
+                                <h6 class="mb-3">¿Cómo calificarías este producto?</h6>
+                                <div class="star-rating">
+                                    <input type="radio" id="star5" name="rating" value="5">
+                                    <label for="star5" class="star">★</label>
 
-                                <input type="radio" id="star4" name="rating" value="4">
-                                <label for="star4" class="star">★</label>
+                                    <input type="radio" id="star4" name="rating" value="4">
+                                    <label for="star4" class="star">★</label>
 
-                                <input type="radio" id="star3" name="rating" value="3">
-                                <label for="star3" class="star">★</label>
+                                    <input type="radio" id="star3" name="rating" value="3">
+                                    <label for="star3" class="star">★</label>
 
-                                <input type="radio" id="star2" name="rating" value="2">
-                                <label for="star2" class="star">★</label>
+                                    <input type="radio" id="star2" name="rating" value="2">
+                                    <label for="star2" class="star">★</label>
 
-                                <input type="radio" id="star1" name="rating" value="1">
-                                <label for="star1" class="star">★</label>
+                                    <input type="radio" id="star1" name="rating" value="1">
+                                    <label for="star1" class="star">★</label>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Comentario -->
-                        <div class="mb-4">
-                           <h6 class="mb-2">Tu comentario</h6>
-                            <textarea class="form-control" id="comentario" rows="4"
-                                      placeholder="Comparte tu experiencia con este producto..."></textarea>
-                        </div>
+                            <!-- Comentario -->
+                            <div class="mb-4">
+                                <h6 class="mb-2">Tu comentario</h6>
+                                <textarea class="form-control" id="comentario" rows="4"
+                                    placeholder="Comparte tu experiencia con este producto..."></textarea>
+                            </div>
 
-                        <!-- Botón Enviar -->
-                        <div class="text-start">
-                            <button class="btn btn-primary px-4">Enviar Calificación</button>
+                            <!-- Botón Enviar -->
+                            <div class="text-start">
+                                <button class="btn btn-primary px-4">Enviar Calificación</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="text-muted">
-        <div class="container">
-            <p class="float-end">
-                <a href="#">Volver arriba</a>
-            </p>
-            <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a
-                    Programar</a></p>
+        <footer class="text-muted">
+            <div class="container">
+                <p class="float-end">
+                    <a href="#">Volver arriba</a>
+                </p>
+                <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a
+                        Programar</a></p>
+            </div>
+        </footer>
+        <div id="spinner-wrapper">
+            <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
-    </footer>
-    <div id="spinner-wrapper">
-        <div class="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/init.js"></script>
-    <script src="js/product-info.js" type="module"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/init.js"></script>
+        <script src="js/product-info.js" type="module"></script>
 </body>
 
 </html>
