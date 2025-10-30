@@ -3,6 +3,8 @@
     margin-top: 100px;
     width: 100%;
     justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 #cart-table {
@@ -10,23 +12,10 @@
     border-collapse: collapse;
 }
 
-.product-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-#cart-table tr {
-    height: 100px
-}
-
-
 #cart-table th,
 #cart-table td {
-    vertical-align: middle;
-    padding: 8px 12px;
-    line-height: 1.2;
+    padding: 12px;
+    text-align: center;
 }
 
 #cart-table p {
@@ -42,60 +31,59 @@
 }
 
 #cart-table .product-info {
-    width: 100%;
-    padding: 10px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    margin: 0;
+    justify-content: flex-start;
+    gap: 15px;
+    text-align: left;
 }
 
 #cart-table .product-image {
-    width: 200px;
+    width: 160px;
+    height: auto;
     object-fit: cover;
     border-radius: 15px;
 }
 
 #cart-table .product-name {
-    width: 100%;
     font-size: 1.2rem;
     font-weight: bold;
-    margin-left: 15px;
 }
 
 #cart-table .quantity-controls {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
 }
 
 #cart-table .quantity-button {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     font-size: 1.2rem;
     border: none;
-    background-color: #333333;
+    background-color: #333;
     color: white;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
 #cart-table .quantity-input {
-    width: 50px;
-    height: 30px;
+    width: 45px;
+    height: 32px;
     text-align: center;
     font-size: 1rem;
-    margin: 0 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
 #resumen {
-    margin-top: 30px;
     display: flex;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     width: 30%;
+    min-width: 250px;
+    margin-top: 30px;
 }
 
 #resumen hr {
@@ -111,8 +99,8 @@
 
 #resumen #buy-button {
     width: 100%;
-    padding: 10px;
-    background-color: #333333;
+    padding: 12px;
+    background-color: #333;
     color: white;
     border: none;
     border-radius: 15px;
@@ -121,5 +109,125 @@
 }
 
 #resumen #buy-button:hover {
-    background-color: #555555;
+    background-color: #555;
+}
+
+@media screen and (max-width: 1024px) {
+    #cart-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #cart-table {
+        width: 90%;
+    }
+
+    #resumen {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #cart-table .cart-item {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        text-align: center;
+    }
+
+    #cart-table .product-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #cart-table .product-image {
+        width: 90px;
+        height: 90px;
+    }
+
+    #cart-table .quantity-controls {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    #cart-table thead {
+        display: none;
+    }
+
+    #cart-table .cart-item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        align-items: stretch;
+        box-sizing: border-box;
+    }
+
+    #cart-table td {
+        display: block;
+        width: 100%;
+        padding: 6px 0;
+        box-sizing: border-box;
+        text-align: left;
+    }
+
+    #cart-table .product-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* Imagen más chica y con tamaño fijo */
+    #cart-table .product-image {
+        width: 72px;
+        height: 72px;
+        object-fit: cover;
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+
+    #cart-table .product-name {
+        font-size: 1rem;
+        line-height: 1.1;
+        word-break: break-word;
+    }
+
+    #cart-table .product-price {
+        font-weight: 700;
+        text-align: center;
+        width: 100%;
+    }
+
+    #cart-table .quantity-controls {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 6px;
+    }
+
+    #cart-table .quantity-button {
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+    }
+
+    #cart-table .quantity-input {
+        width: 48px;
+        height: 36px;
+        border-radius: 6px;
+    }
+
+    #resumen {
+        width: 100%;
+        margin-top: 18px;
+        align-items: center;
+    }
+
+    #cart-table .product-info img,
+    #cart-table .product-info p {
+        display: block;
+    }
 }
