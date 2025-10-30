@@ -116,6 +116,9 @@ body {
     transition: color 1s, color 1s;
 }
 
+.oscuro .product-name{
+    background-color: #1E1E2E;
+}
 /* Modo oscuro */
 
 
