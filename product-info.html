@@ -15,72 +15,6 @@
     <script src="js/pucharseitem.js" defer></script>
     <script src="js/init.js"></script>
     <script src="js/product-info.js" type="module"></script>
-    <style>
-        .star-rating {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: center;
-            gap: 5px;
-            margin: 10px 0;
-            flex-wrap: wrap
-        }
-
-        .star-rating input {
-            display: none;
-        }
-
-        .star-rating label {
-            font-size: 2rem;
-            color: #ddd;
-            cursor: pointer;
-            transition: color 0.2s ease-in-out;
-            padding: 3px;
-        }
-
-        .star-rating label:hover,
-        .star-rating label:hover~label {
-            color: #ffc107;
-            transform: scale(1.1);
-        }
-
-        .star-rating input:checked~label {
-            color: #ffc107;
-        }
-
-        .star-rating input:checked+label {
-            color: #ffc107;
-        }
-
-        .rating-section {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #e9ecef;
-            text-align: center;
-        }
-
-        .card {
-            border: none;
-            border-radius: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .star-rating {
-                justify-content: flex-start;
-                gap: 8px;
-            }
-
-            .star-rating label {
-                font-size: 2.5rem;
-                padding: 5px;
-            }
-
-            .rating-section {
-                padding: 20px;
-                text-align: left;
-            }
-        }
-    </style>
 </head>
 
 <body class="d-none">
@@ -161,11 +95,10 @@
                 </div>
             </div>
         </div>
-        <div class="container d-flex mt-4 flex-lg-row flex-column">
+        <div class="container d-flex mt-4 flex-lg-row flex-column" id="comments-container">
             <div class="d-flex flex-column w-100 align-items-center" id="comments">
                 <h2 class="fs-4">Comentarios</h2>
-                <div id="comments-section" class="d-flex flex-column w-100 mb-3"
-                    style="max-height: 450px; overflow: auto;">
+                <div id="comments-section" class="d-flex flex-column w-100 mb-3">
                     <!-- Los comentarios se cargarán aquí dinámicamente -->
                 </div>
             </div>
@@ -223,25 +156,25 @@
                 <!-- Los productos relacionados se cargarán aquí dinámicamente -->
             </div>
         </div>
-
-        <footer class="text-muted">
-            <div class="container">
-                <p class="float-end">
-                    <a href="#">Volver arriba</a>
-                </p>
-                <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a
-                        Programar</a></p>
-            </div>
-        </footer>
-        <div id="spinner-wrapper">
-            <div class="lds-ring">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+    </main>
+    <footer class="text-muted">
+        <div class="container">
+            <p class="float-end">
+                <a href="#">Volver arriba</a>
+            </p>
+            <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a
+                    Programar</a></p>
         </div>
-        <script src="js/bootstrap.bundle.min.js"></script>
+    </footer>
+    <div id="spinner-wrapper">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
 
 </body>
 

@@ -53,6 +53,11 @@
     color: #ffffff;
 }
 
+#comment-section {
+    max-height: 450px;
+    overflow: auto;
+}
+
 @media screen and (max-width: 1024px) {
     #comments {
         width: 100% !important;

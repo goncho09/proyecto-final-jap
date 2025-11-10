@@ -5,6 +5,44 @@
     font-size: 16px;
     font-family: 'Raleway';
 }
+/* Modo claro/oscuro */
+html:has(#switchTheme:checked) {
+    body,
+    main,
+    .album,
+    .container,
+    input,
+    textarea,
+    select,
+    .list-group-item,
+    .card,
+    td,
+    p,
+    .images,
+    .card-footer,
+    .rating-section,
+    tr,
+    .modal-content,
+    .modal,
+    #file-upload {
+        background-color: #212529 !important;
+        color: white !important;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: white !important;
+    }
+
+    a.btn {
+        background-color: #333 !important;
+        color: white;
+    }
+}
 
 /* Estilo header y navbar */
 nav ul {

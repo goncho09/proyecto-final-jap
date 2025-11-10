@@ -22,7 +22,7 @@ function loadingProductInfo({ images, name, category, currency, cost, descriptio
     mainImage.id = 'mainImage';
     mainImage.src = images[0];
     mainImage.alt = name;
-
+    const fragment = document.createDocumentFragment();
     images.forEach(imageUrl => {
         const thumbnail = document.createElement('img');
         thumbnail.src = imageUrl;
@@ -31,8 +31,10 @@ function loadingProductInfo({ images, name, category, currency, cost, descriptio
         thumbnail.addEventListener('click', () => {
             mainImage.src = imageUrl;
         });
-        thumbnailContainer.appendChild(thumbnail);
+        fragment.appendChild(thumbnail);
     });
+
+    thumbnailContainer.appendChild(fragment);
 
     title.textContent = name;
     categoryElement.textContent = category;
@@ -43,6 +45,7 @@ function loadingProductInfo({ images, name, category, currency, cost, descriptio
 
 function loadingProductsRelated(relatedProducts) {
     const relatedProductsSection = document.getElementById('related-products');
+    const fragment = document.createDocumentFragment();
     relatedProducts.forEach(product => {
 
         const card = document.createElement('div');
@@ -64,13 +67,15 @@ function loadingProductsRelated(relatedProducts) {
         card.appendChild(link);
         link.appendChild(image);
         link.appendChild(title);
-        relatedProductsSection.appendChild(card);
+        fragment.appendChild(card);
     });
+
+    relatedProductsSection.appendChild(fragment);
 }
 
 // --- Comentarios ---
+const commentsContainer = document.getElementById('comments-container')
 const commentsSection = document.getElementById('comments-section');
-let simulatedComments = [];
 
 function mostrarEstrellas(rating) {
     let estrellas = '';
@@ -87,37 +92,66 @@ function mostrarEstrellas(rating) {
 
 getJSONData(`${PRODUCT_INFO_COMMENTS_URL}${productID}${EXT_TYPE}`).then(
     (response) => {
-        simulatedComments = response.data;
-        // Render inicial con los comentarios originales //
-        renderAllComments();
+          if(response.data.length === 0) {
+            commentsContainer.classList.add('d-none')
+        }
+
+        const fragment = document.createDocumentFragment();
+        response.data.forEach(comment => {
+            fragment.appendChild(renderAllComments(comment));
+        });
+
+        commentsSection.appendChild(fragment);
     }
 );
 
 // Función para renderizar todos los comentarios //
-function renderAllComments() {
-    commentsSection.innerHTML = simulatedComments
-        .map(
-            (comment) =>
-                `
-            <div class="d-flex flex-column ">
-                <div class="d-flex  align-items-center justify-content-between">
-                    <h5 class="fw-bold m-0" style="font-size: 1.2rem;" id="comment-user">${comment.user
-                }:</h5>
-                    <p class="text-muted m-0" style="white-space: nowrap;font-size:1rem">${comment.dateTime
-                }</p>
-                </div>
-                <div class="d-flex flex-column">
-                    <p style="font-size: 1rem;margin:5px 0 5px 0;">
-                        ${mostrarEstrellas(comment.score)}
-                    </p>
-                    <p  style="font-size: 1rem;margin:0">${comment.description
-                }</p>
-                    </div>
-                </div>
-            <hr class="my-2" style="border-top: 1px solid #eee;">
-    `
-        )
-        .join('');
+function renderAllComments(comment) {
+    // Create main container
+    const commentContainer = document.createElement('div');
+    commentContainer.className = 'comment-user'
+    // Create header section
+    const header = document.createElement('div');
+    header.className = 'd-flex align-items-center justify-content-between';
+
+    const userName = document.createElement('h5');
+    userName.className = 'comment-user';
+    userName.id = 'comment-user';
+    userName.textContent = `${comment.user}:`;
+
+    const dateTime = document.createElement('p');
+    dateTime.className = 'comment-date text-muted m-0';
+    dateTime.textContent = comment.dateTime;
+
+    header.appendChild(userName);
+    header.appendChild(dateTime);
+
+    // Create content section
+    const content = document.createElement('div');
+    content.className = 'd-flex flex-column';
+
+    const rating = document.createElement('p');
+    rating.className = 'comment-rating';
+    rating.innerHTML = mostrarEstrellas(comment.score);
+
+    const description = document.createElement('p');
+    description.className = 'comment-description';
+    description.textContent = comment.description;
+
+    content.appendChild(rating);
+    content.appendChild(description);
+
+    // Add all elements to container
+    commentContainer.appendChild(header);
+    commentContainer.appendChild(content);
+
+    // Create divider
+    const divider = document.createElement('hr');
+    divider.className = 'comment-divider';
+
+    commentContainer.appendChild(divider);
+
+    return commentContainer;
 }
 
 const sendButton = document.querySelector('.btn.btn-primary'); // botón de enviar
@@ -136,15 +170,17 @@ sendButton.addEventListener('click', (e) => {
     const desc = commentInput.value.trim() || 'Comentario simulado';
     const now = new Date();
 
-    simulatedComments.push({
-        user: localStorage.getItem('usuarioAutenticado') || 'Desconocido',
-        score: val,
+    const comment = {
+        user: authorizedUser,
         description: desc,
-        dateTime:
-            now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0],
-    });
+        score: val,
+        dateTime:  now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0]
+    }
     // Renderizar todos los comentarios //
-    renderAllComments();
+    if(commentsContainer.classList.contains('d-none')){
+         commentsContainer.classList.remove('d-none')
+    }
+    commentsSection.appendChild(renderAllComments(comment));
 
     // Limpiar inputs //
     ratingInput.checked = false;
