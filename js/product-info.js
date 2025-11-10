@@ -93,7 +93,7 @@ function mostrarEstrellas(rating) {
 
 getJSONData(`${PRODUCT_INFO_COMMENTS_URL}${productID}${EXT_TYPE}`).then(
     (response) => {
-          if(response.data.length === 0) {
+        if (response.data.length === 0) {
             commentsContainer.classList.add('d-none')
         }
 
@@ -175,15 +175,43 @@ sendButton.addEventListener('click', (e) => {
         user: authorizedUser,
         description: desc,
         score: val,
-        dateTime:  now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0]
+        dateTime: now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0]
     }
     // Renderizar todos los comentarios //
-    if(commentsContainer.classList.contains('d-none')){
-         commentsContainer.classList.remove('d-none')
+    if (commentsContainer.classList.contains('d-none')) {
+        commentsContainer.classList.remove('d-none')
     }
     commentsSection.appendChild(renderAllComments(comment));
 
     // Limpiar inputs //
     ratingInput.checked = false;
     commentInput.value = '';
+});
+
+const btnBuy = document.getElementById('buy-button'); // Obtenemos el boton
+btnBuy.addEventListener('click', () => {
+
+    const cart = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    let product = cart.find(product => product.id === localStorage.getItem('productID'))
+
+    if (product) {
+        product.cantidad++;
+    } else {
+        let [title, , price] = document.getElementById('product-details').children
+        let [first] = document.querySelectorAll('.thumbnail')
+
+        cart.push({
+            id: localStorage.productID,
+            title: title.textContent,
+            price: price.textContent,
+            image: first.src.split(3000)[1],
+            cantidad: 1,
+        });
+    }
+
+    localStorage.setItem('carrito', JSON.stringify(cart)); // Guardamos en el localstorage los productos obtenidos de dar click en comprar en un string
+    btnBuy.disabled = true;
+    btnBuy.textContent = 'Producto agregado al carrito';
+    window.location.replace('./cart.html')
 });
