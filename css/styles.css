@@ -38,6 +38,10 @@ html:has(#switchTheme:checked) {
         color: white !important;
     }
 
+    header {
+        border-bottom: 1px solid #dee2e6;
+    }
+
     a.btn {
         background-color: #333 !important;
         color: white;
