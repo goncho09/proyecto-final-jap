@@ -200,12 +200,13 @@ btnBuy.addEventListener('click', () => {
     } else {
         let [title, , price] = document.getElementById('product-details').children
         let [first] = document.querySelectorAll('.thumbnail')
+        const urlImage = new URL(first.src);
 
         cart.push({
             id: localStorage.productID,
             title: title.textContent,
             price: price.textContent,
-            image: first.src.split(3000)[1],
+            image: urlImage.pathname.startsWith('/') ? urlImage.pathname.slice(1) : urlImage.pathname,
             cantidad: 1,
         });
     }
