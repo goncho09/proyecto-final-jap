@@ -55,6 +55,32 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+
+
+}
+
+.cart-item {
+    position: relative;
+}
+
+.btn-delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    border-radius: 50%;
+    margin: .45rem;
+    width: 32px;
+    height: 32px;
+    background: lightslategray;
+}
+
+.btn-delete:hover {
+    background-color: red;
+}
+
+.btn-delete img {
+    pointer-events: none;
 }
 
 #cart-table .quantity-button {

@@ -1,79 +1,83 @@
 import { authorizedUser, checkSession } from './util/checkLogin.js';
+import { Header } from './header.js';
 
 checkSession(!authorizedUser, './login.html');
+new Header(authorizedUser);
 
-async function calcularPrecioSubtotal() {
+const numberProducts = document.getElementById('number-products');
+let numberProducstTotal = parseInt(numberProducts.textContent);
+
+function calculateSubtotal() {
     const productsInCart = JSON.parse(localStorage.getItem('carrito'));
+
+    if (!productsInCart || productsInCart.length === 0) {
+        return 0;
+    }
+
     let total = 0;
 
-    for (const { id, cantidad } of productsInCart) {
-        const { data: product } = await getJSONData(
-            `${PRODUCT_INFO_URL}${id}${EXT_TYPE}`
-        );
-        if (!product) {
-            console.error(`Producto con ID ${id} no encontrado.`);
-            continue;
-        }
-        total += product.cost * cantidad;
-    }
+    productsInCart.forEach(product => {
+        total += product.price.split(' ')[1] * product.cantidad;
+    })
 
     return total;
 }
 
 // Función para actualizar el subtotal
-async function updateSubtotal() {
+function updateSubtotal() {
     const subtotalElement = document.getElementById('subtotal');
     const totalElement = document.getElementById('total');
 
     const IVA = 0.22;
 
     // Calcular nuevo subtotal
-    const subtotal = await calcularPrecioSubtotal();
+    const subtotal = calculateSubtotal();
     const total = subtotal + subtotal * IVA;
 
+
     // Actualizar los elementos en el DOM
-    subtotalElement.textContent = `Subtotal: $${subtotal}`;
-    totalElement.textContent = `Total: $${total}`;
+    subtotalElement.textContent = `Subtotal: $${subtotal.toLocaleString()}`;
+    totalElement.textContent = `Total: $${parseInt(total).toLocaleString()}`;
+
 }
 
-function aumentarCantidad(id, quantityInput) {
-    try {
-        const productsInCart = JSON.parse(localStorage.getItem('carrito')) || [];
-        const product = productsInCart.find((p) => parseInt(p.id) === id);
-        if (product) {
-            quantityInput.value = parseInt(quantityInput.value) + 1;
-            product.cantidad++;
-            localStorage.setItem('carrito', JSON.stringify(productsInCart));
-            updateSubtotal();
-        } else {
-            console.error('Producto no encontrado en el carrito');
-        }
-    } catch (error) {
-        console.error('Error al aumentar la cantidad:', error);
+function decreaseUnit(id, quantityInput) {
+
+    const productsInCart = JSON.parse(localStorage.getItem('carrito'));
+    const product = productsInCart.find((p) => parseInt(p.id) === id);
+    if (product) {
+        quantityInput.textContent = parseInt(quantityInput.textContent) + 1;
+        product.cantidad++;
+        numberProducstTotal++;
+        localStorage.setItem('carrito', JSON.stringify(productsInCart));
+        updateSubtotal();
     }
+
+    numberProducts.textContent = numberProducstTotal;
 }
 
 function disminuirCantidad(id, quantityInput) {
-    try {
-        const productsInCart = JSON.parse(localStorage.getItem('carrito')) || [];
-        const product = productsInCart.find((p) => parseInt(p.id) === id);
 
-        if (product) {
-            if (product.cantidad == 1) {
-                productsInCart.splice(productsInCart.indexOf(product), 1);
-                localStorage.setItem('carrito', JSON.stringify(productsInCart));
-                alert('El producto ha sido eliminado del carrito.');
-                location.reload();
-            } else {
-                quantityInput.value = parseInt(quantityInput.value) - 1;
-                product.cantidad--;
-                localStorage.setItem('carrito', JSON.stringify(productsInCart));
-                updateSubtotal();
-            }
-        }
-    } catch (error) {
-        console.error('Error al disminuir la cantidad:', error);
+    let quantityNumber = parseInt(quantityInput.textContent);
+
+    if (quantityNumber === 1) {
+        return;
     }
+
+    const productsInCart = JSON.parse(localStorage.getItem('carrito'));
+
+    const product = productsInCart.find((p) => parseInt(p.id) === id);
+
+    if (product) {
+        quantityInput.textContent = quantityNumber - 1;
+        product.cantidad--;
+        numberProducstTotal--;
+        localStorage.setItem('carrito', JSON.stringify(productsInCart));
+        updateSubtotal();
+
+    }
+
+    numberProducts.textContent = numberProducstTotal;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -82,8 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const productsInCart = JSON.parse(localStorage.getItem('carrito'));
 
     if (!productsInCart || productsInCart.length === 0) {
-        console.log('No hay productos en el carrito');
-        noProductsMessage.style.display = 'block';
+        noProductsMessage.classList.remove('d-none')
         return;
     } else {
         cartTableBody.style.display = 'table-row-group';
@@ -92,51 +95,82 @@ document.addEventListener('DOMContentLoaded', function () {
     const productsTableBody = document.getElementById('cart-products-body');
 
     // Renderizar los productos
-    productsInCart.forEach(({ id, cantidad }) => {
-        getJSONData(`${PRODUCT_INFO_URL}${id}${EXT_TYPE}`).then(
-            ({ data: product }) => {
-                if (!product) return;
+    productsInCart.forEach(product => {
 
-                const row = document.createElement('tr');
-                row.classList.add('cart-item');
-                row.innerHTML = `
-          <td">
+        const row = document.createElement('tr');
+        row.classList.add('cart-item');
+        row.id = "cart-item"
+        row.innerHTML = `
+          <td>
             <div class="product-info">
-              <img src="${product.images[0]}" alt="${product.name}" class="product-image" />
-              <p class="product-name">${product.name}</p>
+              <img src="${product.image}" alt="${product.title}" class="product-image" />
+              <p class="product-name">${product.title}</p>
             </div>
           </td>
           <td>
-            <p class="product-price">${product.currency} $${product.cost}</p>
+            <p class="product-price">${product.price}</p>
           </td>
-          <td>
+          <td id="quantity-controls" class="quantity-container">
             <div class="quantity-controls">
               <button class="quantity-button decrease" data-id="${product.id}">-</button>
-              <input type="text" class="quantity-input" data-id="${product.id}" value="${cantidad}" readonly/>
+              <span class="quantity-input" data-id="${product.id}">${product.cantidad}</span>
               <button class="quantity-button increase" data-id="${product.id}">+</button>
             </div>
+
           </td>
         `;
-                productsTableBody.appendChild(row);
-            }
-        );
+        productsTableBody.appendChild(row);
     });
 
     productsTableBody.addEventListener('click', function (e) {
-        const quantityInput = document.querySelector('.quantity-input');
+        const quantityInputs = document.querySelectorAll('.quantity-input')
+
+        const qualityInput = Array.from(quantityInputs).find(item => item.dataset.id === e.target.dataset.id);
+
         if (e.target.classList.contains('decrease')) {
             const id = parseInt(e.target.dataset.id);
-            disminuirCantidad(id, quantityInput);
+            disminuirCantidad(id, qualityInput);
             updateSubtotal();
         }
 
         if (e.target.classList.contains('increase')) {
             const id = parseInt(e.target.dataset.id);
-            aumentarCantidad(id, quantityInput);
+            decreaseUnit(id, qualityInput);
             updateSubtotal();
         }
     });
 
-    // Inicializar subtotal y total
-    updateSubtotal();
+    const items = document.querySelectorAll('#cart-item')
+    items.forEach(item => {
+        const btnDelete = document.createElement('button');
+        btnDelete.innerHTML = `
+            <img src="./img/bin.png">
+        `
+        btnDelete.className = 'btn-delete'
+        btnDelete.addEventListener('click', (event) => {
+
+            //Se obtiene el id del producto que esta en los controles quantity controls
+            const idProduct = event.target.parentNode.querySelector('.decrease').dataset.id;
+            const quantity = event.target.parentNode.querySelector('.quantity-input');
+           const quantityTotal = parseInt(numberProducts.textContent) - parseInt(quantity.textContent);
+            const carrito = JSON.parse(localStorage.getItem('carrito'));
+            const newCarrito = carrito.filter(item => item.id !== idProduct);
+
+            localStorage.setItem('carrito', JSON.stringify(newCarrito));
+            productsTableBody.removeChild(event.target.parentNode);
+            updateSubtotal();
+
+            if (productsTableBody.children.length === 1) {
+                noProductsMessage.classList.remove('d-none');
+            }
+
+            numberProducts.textContent = quantityTotal;
+        });
+        item.append(btnDelete);
+    })
+
+
 });
+
+// Inicializar subtotal y total
+updateSubtotal();

@@ -10,82 +10,69 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
-    <link href="css/header.css" rel="stylesheet">
     <link rel="stylesheet" href="css/product-info.css">
-    <script src="js/header.js" defer></script>
-    <script src="js/change-theme.js" defer></script>
-    <script src="js/pucharseitem.js" defer></script>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 
-    <style>
-        .star-rating {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: center;
-            gap: 5px;
-            margin: 10px 0;
-            flex-wrap: wrap
-        }
-
-        .star-rating input {
-            display: none;
-        }
-
-        .star-rating label {
-            font-size: 2rem;
-            color: #ddd;
-            cursor: pointer;
-            transition: color 0.2s ease-in-out;
-            padding: 3px;
-        }
-
-        .star-rating label:hover,
-        .star-rating label:hover~label {
-            color: #ffc107;
-            transform: scale(1.1);
-        }
-
-        .star-rating input:checked~label {
-            color: #ffc107;
-        }
-
-        .star-rating input:checked+label {
-            color: #ffc107;
-        }
-
-        .rating-section {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #e9ecef;
-            text-align: center;
-        }
-
-        .card {
-            border: none;
-            border-radius: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .star-rating {
-                justify-content: flex-start;
-                gap: 8px;
-            }
-
-            .star-rating label {
-                font-size: 2.5rem;
-                padding: 5px;
-            }
-
-            .rating-section {
-                padding: 20px;
-                text-align: left;
-            }
-        }
-    </style>
+    <script src="js/init.js"></script>
+    <script src="js/product-info.js" type="module"></script>
 </head>
 
 <body class="d-none">
-    <header id="header" style="margin-bottom: 50px;"></header>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">e-Mercado</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./categories.html">Categorias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./sell.html">Vender</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link cart-link" href="./cart.html">
+                                <img src="./img/shopping-cart.png" alt="shopping-cart.png">
+                                <span class="badge" id="number-products">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="./img/img_perfil.png" alt="img-perfil.png" id="img-profile-menu" />
+                                <span id="profile-name">Nombre</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li>
+                                    <a class="dropdown-item" href="./my-profile.html">Mi Perfil</a>
+                                </li>
+                                <li class="checkbox-theme">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="switchTheme">
+                                        <label class="form-check-label" for="switchTheme">
+                                            Cambiar tema
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" id="btnLogOut" href="./login.html">Cerrar Sesion</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <main class="pb-5">
         <div class="container">
             <div id="product-info" class="d-flex flex-column flex-md-row mt-5">
@@ -108,11 +95,10 @@
                 </div>
             </div>
         </div>
-        <div class="container d-flex mt-4 flex-lg-row flex-column">
+        <div class="container d-flex mt-4 flex-lg-row flex-column" id="comments-container">
             <div class="d-flex flex-column w-100 align-items-center" id="comments">
                 <h2 class="fs-4">Comentarios</h2>
-                <div id="comments-section" class="d-flex flex-column w-100 mb-3"
-                    style="max-height: 450px; overflow: auto;">
+                <div id="comments-section" class="d-flex flex-column w-100 mb-3">
                     <!-- Los comentarios se cargarán aquí dinámicamente -->
                 </div>
             </div>
@@ -170,27 +156,26 @@
                 <!-- Los productos relacionados se cargarán aquí dinámicamente -->
             </div>
         </div>
-
-        <footer class="text-muted">
-            <div class="container">
-                <p class="float-end">
-                    <a href="#">Volver arriba</a>
-                </p>
-                <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a
-                        Programar</a></p>
-            </div>
-        </footer>
-        <div id="spinner-wrapper">
-            <div class="lds-ring">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+    </main>
+    <footer class="text-muted">
+        <div class="container">
+            <p class="float-end">
+                <a href="#">Volver arriba</a>
+            </p>
+            <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a
+                    Programar</a></p>
         </div>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/init.js"></script>
-        <script src="js/product-info.js" type="module"></script>
+    </footer>
+    <div id="spinner-wrapper">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

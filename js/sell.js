@@ -1,6 +1,9 @@
 import {  authorizedUser, checkSession} from "./util/checkLogin.js";
+import { Header } from './header.js';
 
 checkSession(!authorizedUser, './login.html');
+new Header(authorizedUser);
+
 let productCost = 0;
 let productCount = 0;
 let comissionPercentage = 0.13;
