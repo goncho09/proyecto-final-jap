@@ -1,18 +1,28 @@
 import { authorizedUser, checkSession } from "./util/checkLogin.js";
 import { Header } from "./header.js";
 
+
 checkSession(!authorizedUser, './login.html');
 new Header(authorizedUser);
 
-const inputImage = document.getElementById('img-input');
-const imgProfile = document.getElementById('img-profile');
-const profileForm = document.getElementById('profile-form');
-const profiles = new Map(JSON.parse(localStorage.getItem('profiles')) ?? [])
+let inputImage = document.getElementById('img-input');
+let imgProfile = document.getElementById('img-profile');
+let profileForm = document.getElementById('profile-form');
+const profiles = JSON.parse(localStorage.getItem('profiles')) ?? [];
+
+const MAX_FILE_SIZE = 1024 * 1024;
 
 inputImage.addEventListener('change', (event) => {
-    const image = event.target.files[0];
+    let image = event.target.files[0];
 
-    const reader = new FileReader();
+    if(image.size > MAX_FILE_SIZE) {
+        alert('La imagen es demasiado grande. El tama;o debe de ser menor a 1mb')
+        event.target.value = '';
+
+        return;
+    }
+
+    let reader = new FileReader();
     reader.onloadend = () => {
         imgProfile.src = reader.result;
     };
@@ -21,34 +31,46 @@ inputImage.addEventListener('change', (event) => {
 });
 
 profileForm.addEventListener('submit', (event) => {
-    event.preventDefault();
 
-    const { name, lastname, phone, email } = event.target;
-    const profile = {
-        name: name.value,
-        lastName: lastname.value,
-        phone: phone.value,
-        email: email.value,
-        image: imgProfile.src,
-    };
+    let { name, lastname, phone, email } = event.target;
 
-    profiles.set(localStorage.usuarioAutenticado, profile);
+    if (!name.value || !lastname.value, !phone.value) {
+        event.preventDefault();
+    }
+
+    const userProfile = profiles.find(profile => profile.user === authorizedUser);
+
+    if (!userProfile) {
+        let profile = {
+            user: email.value,
+            name: name.value,
+            lastName: lastname.value,
+            phone: phone.value,
+            image: imgProfile.src,
+        };
+        profiles.push(profile)
+    } else {
+        userProfile.name = name.value;
+        userProfile.lastName = lastname.value;
+        userProfile.phone = phone.value;
+        userProfile.image = imgProfile.src;
+    }
     localStorage.setItem('profiles', JSON.stringify([...profiles]));
     alert('Perfil guardado con éxito.');
 });
 
 function loadInformation() {
-    const userProfile = profiles.get(localStorage.usuarioAutenticado);
+    const userProfile = profiles.find(profile => profile.user === authorizedUser);
 
     if (!localStorage.profiles || !userProfile) {
-        email.value = localStorage.usuarioAutenticado;
+        email.value = authorizedUser;
         return;
     }
 
     profileForm['name'].value = userProfile.name;
     profileForm['lastname'].value = userProfile.lastName;
     profileForm['phone'].value = userProfile.phone;
-    profileForm['email'].value = userProfile.email;
+    profileForm['email'].value = userProfile.user;
     imgProfile.src = userProfile.image;
 }
 

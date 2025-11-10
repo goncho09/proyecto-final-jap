@@ -37,6 +37,17 @@ a.dropdown-toggle {
     border: 1px solid #333 !important;
 }
 
+li.nav-item.dropdown {
+    min-width: 190px;
+}
+
+span#profile-name {
+    font-size: .75em;
+    display: inline;
+    overflow: hidden;
+}
+
+
 .navbar-nav .dropdown-menu,
 .badge {
     position: absolute;
@@ -281,12 +292,18 @@ a.custom-card:hover {
     color: #6c757d;
 }
 
+
 /* Estilo mi perfil */
 
 .profile-container {
-    background-color: #212529;
-    height: 100px;
+    background-color: #565959;
+    height: 125px;
+}
 
+.profile-container,
+.form-container {
+    max-width: 900px;
+    margin: .8em auto;
 }
 
 .profile-banner {
@@ -369,10 +386,6 @@ fieldset {
     }
 }
 
-.btn-submit {
-    width: 150px;
-}
-
 footer {
     padding-top: 3rem;
     padding-bottom: 3rem;
@@ -385,6 +398,10 @@ footer p {
 @media screen and (min-width: 760px) {
     .image-container {
         flex-basis: 45%;
+    }
+
+    fieldset {
+        padding: 0 4rem;
     }
 }
 
