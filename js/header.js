@@ -1,38 +1,56 @@
-function toggleMenu() {
-    const menu = document.getElementById('navbarSupportedContent');
-    menu.classList.toggle('active');
+export class Header {
+
+    constructor(profile = '') {
+        const btnLogOut = document.getElementById('btnLogOut');
+        btnLogOut.addEventListener('click', this.cerrarSesion);
+
+        const checkBoxTheme = document.getElementById('switchTheme');
+        checkBoxTheme.addEventListener('change', event => this.changeTheme(event));
+
+        const themeActive = JSON.parse(localStorage.getItem('tema')) ?? false;
+
+        if(themeActive) {
+            checkBoxTheme.checked = themeActive;
+        }
+
+        const _profile = JSON.parse(localStorage.getItem("profiles")) ?? [];
+
+        const user = _profile.find(item => item.user === profile);
+
+        const cart = JSON.parse(localStorage.getItem('carrito'));
+        let total = 0;
+
+        if (cart) {
+            cart.forEach(element => {
+                total += element.cantidad;
+            });
+
+            document.getElementById('number-products').textContent = total;
+        }
+
+
+        if (!user) {
+            document.getElementById('profile-name').innerHTML = profile;
+            return;
+        }
+
+        document.getElementById('profile-name').innerHTML = `${user.name} ${user.lastName}`
+        document.getElementById('img-profile-menu').src = user.image;
+    }
+
+    cerrarSesion() {
+        localStorage.removeItem('usuarioAutenticado');
+    }
+
+    changeTheme(event) {
+        const flagChecked = event.target.checked;
+
+        // Condicional para en caso de ser verdadero
+        if (flagChecked) {
+            localStorage.setItem('tema', flagChecked)
+            return;
+        }
+
+        localStorage.setItem('tema', flagChecked);
+    }
 }
-
-function cerrarSesion() {
-    localStorage.removeItem('usuarioAutenticado');
-    window.location.replace('./login.html');
-}
-
-function loadHeader() {
-    const container = document.getElementById('header');
-
-    document.body.style.opacity = 0;
-    document.body.style.transition = 'opacity 0.2s ease';
-
-    fetch('header.html')
-        .then((res) => res.text())
-        .then((data) => {
-            container.innerHTML = data;
-
-            const userDisplay = document.getElementById('userDisplay');
-            const user = localStorage.getItem('usuarioAutenticado');
-            if (user && userDisplay) {
-                userDisplay.textContent = user;
-            }
-
-            const numberProducts = document.getElementById('number-products');
-
-            numberProducts.textContent = !localStorage.carrito ? 0 : JSON.parse(localStorage.carrito).length;
-        })
-        .catch((err) => console.error('Error cargando el header:', err))
-        .finally(() => {
-            document.body.style.opacity = 1;
-        });
-}
-
-document.addEventListener('DOMContentLoaded', loadHeader);

@@ -1,7 +1,8 @@
 import { authorizedUser, checkSession } from './util/checkLogin.js';
+import { Header } from './header.js'
 
 checkSession(!authorizedUser, './login.html');
-
+new Header(authorizedUser)
 async function calcularPrecioSubtotal() {
     const productsInCart = JSON.parse(localStorage.getItem('carrito'));
     let total = 0;

@@ -1,6 +1,9 @@
 import { authorizedUser, checkSession } from "./util/checkLogin.js";
+import { Header } from './header.js';
 
 checkSession(!authorizedUser, './login.html');
+new Header(authorizedUser);
+
 const productID = localStorage.getItem('productID');
 
 getJSONData(`${PRODUCT_INFO_URL}${productID}${EXT_TYPE}`)

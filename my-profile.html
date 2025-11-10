@@ -8,13 +8,66 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
-    <link href="css/header.css" rel="stylesheet">
-    <script src="js/header.js" defer></script>
-    <script src="js/change-theme.js" defer></script>
+    <script src="js/my-profile.js" type="module"></script>
 </head>
 
 <body class="d-none">
-    <header id="header" style="margin-bottom: 50px;"></header>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">e-Mercado</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./categories.html">Categorias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./sell.html">Vender</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link cart-link" href="./cart.html">
+                                <img src="./img/shopping-cart.png" alt="shopping-cart.png">
+                                <span class="badge" id="number-products">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="./img/img_perfil.png" alt="img-perfil.png" id="img-profile-menu" />
+                                <span id="profile-name">Nombre</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li>
+                                    <a class="dropdown-item" href="./my-profile.html">Mi Perfil</a>
+                                </li>
+                                <li class="checkbox-theme">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="switchTheme">
+                                        <label class="form-check-label" for="switchTheme">
+                                            Cambiar tema
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" id="btnLogOut" href="./login.html">Cerrar Sesion</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
     <main>
         <div class="container-fluid px-0">
             <div class="profile-container">
@@ -67,7 +120,7 @@
         </div>
     </footer>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/my-profile.js" type="module"></script>
+
 </body>
 
 </html>

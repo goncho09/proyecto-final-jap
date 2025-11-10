@@ -1,6 +1,8 @@
 import { authorizedUser, checkSession } from "./util/checkLogin.js";
+import { Header } from "./header.js";
 
 checkSession(!authorizedUser, './login.html');
+new Header(authorizedUser);
 
 const inputImage = document.getElementById('img-input');
 const imgProfile = document.getElementById('img-profile');
