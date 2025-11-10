@@ -58,6 +58,7 @@ function loadingProductsRelated(relatedProducts) {
         card.addEventListener('click', () => localStorage.setItem('productID', product.id));
 
         link.href = './product-info.html';
+        link.className = "related-link"
         image.src = product.image;
         image.className = 'card-img-top related-img';
         image.alt = product.name;

@@ -58,6 +58,10 @@
     overflow: auto;
 }
 
+.related-link {
+    color: #212121;
+}
+
 @media screen and (max-width: 1024px) {
     #comments {
         width: 100% !important;
