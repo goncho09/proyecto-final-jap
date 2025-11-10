@@ -15,7 +15,7 @@ const MAX_FILE_SIZE = 1024 * 1024;
 inputImage.addEventListener('change', (event) => {
     let image = event.target.files[0];
 
-    if(image.size > MAX_FILE_SIZE) {
+    if (image.size > MAX_FILE_SIZE) {
         alert('La imagen es demasiado grande. El tama;o debe de ser menor a 1mb')
         event.target.value = '';
 
@@ -31,11 +31,11 @@ inputImage.addEventListener('change', (event) => {
 });
 
 profileForm.addEventListener('submit', (event) => {
-
+    event.preventDefault();
     let { name, lastname, phone, email } = event.target;
 
     if (!name.value || !lastname.value, !phone.value) {
-        event.preventDefault();
+        return;
     }
 
     const userProfile = profiles.find(profile => profile.user === authorizedUser);
@@ -57,6 +57,7 @@ profileForm.addEventListener('submit', (event) => {
     }
     localStorage.setItem('profiles', JSON.stringify([...profiles]));
     alert('Perfil guardado con éxito.');
+    window.location.reload();
 });
 
 function loadInformation() {
