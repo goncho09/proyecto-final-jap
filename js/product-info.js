@@ -206,7 +206,7 @@ btnBuy.addEventListener('click', () => {
             id: localStorage.productID,
             title: title.textContent,
             price: price.textContent,
-            image: urlImage.pathname.startsWith('/') ? urlImage.pathname.slice(1) : urlImage.pathname,
+            image: `/img${urlImage.pathname.split('/img')[1]}` ,
             cantidad: 1,
         });
     }
