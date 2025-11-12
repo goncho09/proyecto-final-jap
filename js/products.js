@@ -109,18 +109,18 @@ const btnClean = document.getElementById('btnLimpiar')
 const order = document.getElementById('ordenar')
 
 btnFiltrar.addEventListener('click', () => {
-    filtrarProductos();
+    productsFilter();
 })
 
 btnClean.addEventListener('click', () => {
-    limpiarFiltros();
+    cleanFilter();
 })
 
 order.addEventListener('click', (event) => {
-    ordenarProductos(event.target.value);
+    sortProducts(event.target.value);
 });
 
-function filtrarProductos() {
+function productsFilter() {
     const minInput = document.getElementById("precioMin");
     const maxInput = document.getElementById("precioMax");
 
@@ -137,7 +137,7 @@ function filtrarProductos() {
     });
 }
 
-function limpiarFiltros() {
+function cleanFilter() {
     document.getElementById("precioMin").value = "";
     document.getElementById("precioMax").value = "";
     document.getElementById("ordenar").value = "";
@@ -147,7 +147,7 @@ function limpiarFiltros() {
     });
 }
 
-function ordenarProductos(tipo) {
+function sortProducts(tipo) {
 
     if (tipo === "precioAsc") {
         Array.from(productosContainer).sort((a, b) => {

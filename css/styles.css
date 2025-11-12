@@ -47,7 +47,7 @@ html:has(#switchTheme:checked) {
         color: white;
     }
 
-    .related-link {
+    .related-link, p > a {
         color:#fff;
     }
 }
@@ -224,6 +224,10 @@ label.form-check-label {
 
 main {
     min-height: calc(100vh - 210px);
+}
+
+p > a {
+    color:#333;
 }
 
 a.custom-card,

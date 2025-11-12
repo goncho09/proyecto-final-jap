@@ -2,7 +2,7 @@ export class Header {
 
     constructor(profile = '') {
         const btnLogOut = document.getElementById('btnLogOut');
-        btnLogOut.addEventListener('click', this.cerrarSesion);
+        btnLogOut.addEventListener('click', this.logOut);
 
         const checkBoxTheme = document.getElementById('switchTheme');
         checkBoxTheme.addEventListener('change', event => this.changeTheme(event));
@@ -38,7 +38,7 @@ export class Header {
         document.getElementById('img-profile-menu').src = user.image;
     }
 
-    cerrarSesion() {
+    logOut() {
         localStorage.removeItem('usuarioAutenticado');
     }
 
