@@ -7,13 +7,13 @@ const form = document.getElementById('loginForm');
 form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const usuario = document.getElementById('user').value;
-    const clave = document.getElementById('password').value;
+    const user = document.getElementById('user').value;
+    const password = document.getElementById('password').value;
 
     // Validación de ejemplo
-    if (usuario && clave) {
+    if (user && password) {
         // Guardar sesión en localStorage
-        localStorage.setItem('usuarioAutenticado', usuario);
+        localStorage.setItem('usuarioAutenticado', user);
 
         window.location.replace('./index.html');
     }

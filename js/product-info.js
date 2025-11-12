@@ -1,5 +1,6 @@
 import { authorizedUser, checkSession } from "./util/checkLogin.js";
 import { Header } from './header.js';
+import { warningAlert } from "./util/alerts.js";
 
 checkSession(!authorizedUser, './login.html');
 new Header(authorizedUser);
@@ -108,10 +109,10 @@ getJSONData(`${PRODUCT_INFO_COMMENTS_URL}${productID}${EXT_TYPE}`).then(
 
 // Función para renderizar todos los comentarios //
 function renderAllComments(comment) {
-    // Create main container
+
     const commentContainer = document.createElement('div');
     commentContainer.className = 'comment-user'
-    // Create header section
+
     const header = document.createElement('div');
     header.className = 'd-flex align-items-center justify-content-between';
 
@@ -127,7 +128,6 @@ function renderAllComments(comment) {
     header.appendChild(userName);
     header.appendChild(dateTime);
 
-    // Create content section
     const content = document.createElement('div');
     content.className = 'd-flex flex-column';
 
@@ -142,11 +142,9 @@ function renderAllComments(comment) {
     content.appendChild(rating);
     content.appendChild(description);
 
-    // Add all elements to container
     commentContainer.appendChild(header);
     commentContainer.appendChild(content);
 
-    // Create divider
     const divider = document.createElement('hr');
     divider.className = 'comment-divider';
 
@@ -160,10 +158,10 @@ sendButton.addEventListener('click', (e) => {
     e.preventDefault(); // prevenir comportamiento por defecto del botón
 
     const ratingInput = document.querySelector('input[name="rating"]:checked'); // input de calificación
-    const commentInput = document.querySelector('#comentario'); // textarea de comentario
+    const commentInput = document.querySelector('#comment'); // textarea de comentario
 
     if (!ratingInput) {
-        alert('Selecciona una calificación');
+        warningAlert('Debes selecionar una clasificacion.')
         return;
     }
 

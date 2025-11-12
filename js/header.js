@@ -28,7 +28,6 @@ export class Header {
             document.getElementById('number-products').textContent = total;
         }
 
-
         if (!user) {
             document.getElementById('profile-name').innerHTML = profile;
             return;

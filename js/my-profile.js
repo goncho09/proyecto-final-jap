@@ -1,6 +1,6 @@
 import { authorizedUser, checkSession } from "./util/checkLogin.js";
 import { Header } from "./header.js";
-
+import { successAlert, warningAlert } from "./util/alerts.js";
 
 checkSession(!authorizedUser, './login.html');
 new Header(authorizedUser);
@@ -16,9 +16,8 @@ inputImage.addEventListener('change', (event) => {
     let image = event.target.files[0];
 
     if (image.size > MAX_FILE_SIZE) {
-        alert('La imagen es demasiado grande. El tama;o debe de ser menor a 1mb')
+        warningAlert('La imagen debe pesar menos de 1mb.');
         event.target.value = '';
-
         return;
     }
 
@@ -56,8 +55,9 @@ profileForm.addEventListener('submit', (event) => {
         userProfile.image = imgProfile.src;
     }
     localStorage.setItem('profiles', JSON.stringify([...profiles]));
-    alert('Perfil guardado con éxito.');
-    window.location.reload();
+    successAlert('Perfil guardado con exito.')
+
+    setTimeout(()=> window.location.reload(), 1250);
 });
 
 function loadInformation() {
