@@ -47,8 +47,12 @@ html:has(#switchTheme:checked) {
         color: white;
     }
 
-    .related-link {
+    .related-link, p > a {
         color:#fff;
+    }
+
+    p > a:hover{
+        color: #0a58ca;
     }
 }
 
@@ -224,6 +228,10 @@ label.form-check-label {
 
 main {
     min-height: calc(100vh - 210px);
+}
+
+p > a {
+    color:#333;
 }
 
 a.custom-card,
@@ -439,6 +447,10 @@ footer {
 
 footer p {
     margin-bottom: .25rem;
+}
+
+.alert {
+    width: max-content !important;
 }
 
 @media screen and (min-width: 760px) {

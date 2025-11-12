@@ -39,7 +39,7 @@ function updateSubtotal() {
   totalElement.textContent = `Total: $${parseInt(total).toLocaleString()}`;
 }
 
-function decreaseUnit(id, quantityInput) {
+function increaseUnit(id, quantityInput) {
   const productsInCart = JSON.parse(localStorage.getItem('carrito'));
   const product = productsInCart.find((p) => parseInt(p.id) === id);
   if (product) {
@@ -53,7 +53,9 @@ function decreaseUnit(id, quantityInput) {
   numberProducts.textContent = numberProducstTotal;
 }
 
-function disminuirCantidad(id, quantityInput) {
+
+function decreaseUnit(id, quantityInput) {
+
   let quantityNumber = parseInt(quantityInput.textContent);
 
   if (quantityNumber === 1) {
@@ -151,18 +153,18 @@ document.addEventListener('DOMContentLoaded', function () {
       (item) => item.dataset.id === e.target.dataset.id
     );
 
-    if (e.target.classList.contains('decrease')) {
-      const id = parseInt(e.target.dataset.id);
-      disminuirCantidad(id, qualityInput);
-      updateSubtotal();
-    }
+        if (e.target.classList.contains('decrease')) {
+            const id = parseInt(e.target.dataset.id);
+            decreaseUnit(id, qualityInput);
+            updateSubtotal();
+        }
 
-    if (e.target.classList.contains('increase')) {
-      const id = parseInt(e.target.dataset.id);
-      decreaseUnit(id, qualityInput);
-      updateSubtotal();
-    }
-  });
+        if (e.target.classList.contains('increase')) {
+            const id = parseInt(e.target.dataset.id);
+            increaseUnit(id, qualityInput);
+            updateSubtotal();
+        }
+    });
 
   const items = document.querySelectorAll('#cart-item');
   items.forEach((item) => {

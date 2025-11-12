@@ -87,39 +87,39 @@
             <div class="row mb-4 align-items-end">
                 <!-- Filtro Precio Mínimo -->
                 <div class="col-md-3">
-                    <label for="precioMin" class="form-label">Precio mínimo</label>
-                    <input type="number" id="precioMin" class="form-control" placeholder="0" min="0">
+                    <label for="minPrice" class="form-label">Precio mínimo</label>
+                    <input type="number" id="minPrice" class="form-control" placeholder="0" min="0">
                 </div>
 
                 <!-- Filtro Precio Máximo -->
                 <div class="col-md-3">
-                    <label for="precioMax" class="form-label">Precio máximo</label>
-                    <input type="number" id="precioMax" class="form-control" placeholder="100000" min="0">
+                    <label for="maxPrice" class="form-label">Precio máximo</label>
+                    <input type="number" id="maxPrice" class="form-control" placeholder="100000" min="0">
                 </div>
 
                 <!-- Botones -->
                 <div class="col-md-2">
-                    <button id="btnFiltrar"" class=" btn btn-primary w-100">Filtrar</button>
+                    <button id="btnFilter"" class=" btn btn-primary w-100">Filtrar</button>
                 </div>
                 <div class="col-md-2">
-                    <button id="btnLimpiar" class="btn btn-secondary w-100">Limpiar</button>
+                    <button id="btnClear" class="btn btn-secondary w-100">Limpiar</button>
                 </div>
 
                 <!-- Ordenamiento -->
                 <div class="col-md-2">
-                    <label for="ordenar" class="form-label">Ordenar por</label>
-                    <select id="ordenar" class="form-select">
+                    <label for="sort" class="form-label">Ordenar por</label>
+                    <select id="sort" class="form-select">
                         <option value="">Seleccionar...</option>
-                        <option value="precioAsc">Precio: Ascendente</option>
-                        <option value="precioDesc">Precio: Descendente</option>
-                        <option value="relevanciaDesc">Relevancia (Vendidos)</option>
+                        <option value="priceAsc">Precio: Ascendente</option>
+                        <option value="priceDesc">Precio: Descendente</option>
+                        <option value="relevance">Relevancia (Vendidos)</option>
                     </select>
                 </div>
             </div>
         </section>
         <!-- Tarjetas de productos -->
         <div class="container">
-            <div class="row " id="products"></div>
+            <div class="row" id="products"></div>
         </div>
     </main>
 

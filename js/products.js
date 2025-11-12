@@ -104,25 +104,25 @@ searchInput.addEventListener('input', (event) => {
         }
     });
 });
-const btnFiltrar = document.getElementById('btnFiltrar')
-const btnClean = document.getElementById('btnLimpiar')
-const order = document.getElementById('ordenar')
+const btnFiltrar = document.getElementById('btnFilter')
+const btnClean = document.getElementById('btnClear')
+const order = document.getElementById('sort')
 
 btnFiltrar.addEventListener('click', () => {
-    filtrarProductos();
+    productsFilter();
 })
 
 btnClean.addEventListener('click', () => {
-    limpiarFiltros();
+    cleanFilter();
 })
 
 order.addEventListener('click', (event) => {
-    ordenarProductos(event.target.value);
+    sortProducts(event.target.value);
 });
 
-function filtrarProductos() {
-    const minInput = document.getElementById("precioMin");
-    const maxInput = document.getElementById("precioMax");
+function productsFilter() {
+    const minInput = document.getElementById("minPrice");
+    const maxInput = document.getElementById("maxPrice");
 
     const min = minInput.value ? parseInt(minInput.value) : 0;
     const max = maxInput.value ? parseInt(maxInput.value) : 1000000;
@@ -137,33 +137,33 @@ function filtrarProductos() {
     });
 }
 
-function limpiarFiltros() {
-    document.getElementById("precioMin").value = "";
-    document.getElementById("precioMax").value = "";
-    document.getElementById("ordenar").value = "";
+function cleanFilter() {
+    document.getElementById("minPrice").value = "";
+    document.getElementById("maxPrice").value = "";
+    document.getElementById("sort").value = "";
 
     Array.from(productosContainer).forEach(card => {
         card.style.display = 'block';
     });
 }
 
-function ordenarProductos(tipo) {
+function sortProducts(tipo) {
 
-    if (tipo === "precioAsc") {
+    if (tipo === "priceAsc") {
         Array.from(productosContainer).sort((a, b) => {
             const price = Number(a.querySelector('span#price').textContent)
             const price1 = Number(b.querySelector('span#price').textContent)
             return price - price1;
         }).forEach(element => containerProducts.appendChild(element));
     }
-    else if (tipo === "precioDesc") {
+    else if (tipo === "priceDesc") {
         Array.from(productosContainer).sort((a, b) => {
             const price = Number(a.querySelector('span#price').textContent)
             const price1 = Number(b.querySelector('span#price').textContent)
             return price1 - price;
         }).forEach(element => containerProducts.appendChild(element));
     }
-    else if (tipo === "relevanciaDesc") {
+    else if (tipo === "relevance") {
         Array.from(productosContainer).sort((a, b) => {
             const price = Number(a.querySelector('p#soldCount').textContent)
             const price1 = Number(b.querySelector('p#soldCount').textContent)
