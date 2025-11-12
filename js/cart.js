@@ -76,27 +76,58 @@ function disminuirCantidad(id, quantityInput) {
 }
 
 function paymentsOptions() {
-  const paymentsSelect = document.getElementById('payment-method');
+  const shippingButton = document.getElementById('shipping-method-button');
+  const directionButton = document.getElementById('direction-button');
+  const paymentButton = document.getElementById('payment-method-button');
 
-  paymentsSelect.addEventListener('change', function () {
-    const cardDetails = document.getElementById('card-details');
-    const installments = document.getElementById('installments');
-    const bankDetails = document.getElementById('bank-details');
+  const shippingSelect = document.getElementById('shipping-method');
+  const paymentSelect = document.getElementById('payment-method');
 
-    const selectedOption = paymentsSelect.value;
+  const directionContainer = document.querySelector('.direction-container');
+  const cardDetails = document.getElementById('card-details');
+  const installments = document.getElementById('installments');
+  const bankDetails = document.getElementById('bank-details');
 
-    if (selectedOption === 'credit-card') {
+  shippingButton.addEventListener('click', function () {
+    if (shippingSelect.style.display === 'none') {
+      shippingSelect.style.display = 'flex';
+    } else {
+      shippingSelect.style.display = 'none';
+    }
+  });
+
+  directionButton.addEventListener('click', function () {
+    if (directionContainer.style.display === 'none') {
+      directionContainer.style.display = 'flex';
+    } else {
+      directionContainer.style.display = 'none';
+    }
+  });
+
+  paymentButton.addEventListener('click', function () {
+    if (paymentSelect.style.display === 'none') {
+      paymentSelect.style.display = 'flex';
+    } else {
+      cardDetails.classList.add('d-none');
+      installments.classList.add('d-none');
+      bankDetails.classList.add('d-none');
+      paymentSelect.style.display = 'none';
+    }
+  });
+
+  paymentSelect.addEventListener('change', function () {
+    if (this.value === 'credit-card') {
       cardDetails.classList.remove('d-none');
       installments.classList.remove('d-none');
       bankDetails.classList.add('d-none');
-    } else if (selectedOption === 'debit-card') {
+    } else if (this.value === 'bank-transfer') {
+      bankDetails.classList.remove('d-none');
+      cardDetails.classList.add('d-none');
+      installments.classList.add('d-none');
+    } else if (this.value === 'debit-card') {
       cardDetails.classList.remove('d-none');
       installments.classList.add('d-none');
       bankDetails.classList.add('d-none');
-    } else if (selectedOption === 'bank-transfer') {
-      installments.classList.add('d-none');
-      cardDetails.classList.add('d-none');
-      bankDetails.classList.remove('d-none');
     } else {
       cardDetails.classList.add('d-none');
       installments.classList.add('d-none');
