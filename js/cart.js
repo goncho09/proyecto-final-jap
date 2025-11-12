@@ -97,6 +97,10 @@ function paymentsOptions() {
       installments.classList.add('d-none');
       cardDetails.classList.add('d-none');
       bankDetails.classList.remove('d-none');
+    } else {
+      cardDetails.classList.add('d-none');
+      installments.classList.add('d-none');
+      bankDetails.classList.add('d-none');
     }
   });
 }
