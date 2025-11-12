@@ -138,6 +138,113 @@
     background-color: #555;
 }
 
+.checkout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.shipping-method-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #FFED29;
+    font-weight: 600;
+}
+
+.shipping-method-container select,
+.payment-method-container select {
+    margin-left: 10px;
+    padding: 8px;
+    outline: none;
+}
+
+.direction-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: 15px;
+    gap: 8px;
+    background-color: #FFED29;
+}
+
+.direction-container label {
+    text-align: left;
+    font-weight: 600;
+}
+
+.direction-container input {
+    padding: 8px;
+    border: none;
+    outline: none;
+}
+
+.payment-method-container {
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px;
+    margin-top: 15px;
+    gap: 8px;
+    background-color: #00FFF0;
+}
+
+.payment-method-container label {
+    text-align: left;
+    font-weight: 600;
+}
+
+.payment-method-select-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.payment-method-subcontainer {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: start;
+}
+
+#card-details {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+#card-details input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    outline: none;
+}
+
+#installments {
+    width: 100%;
+    margin: 0;
+    margin-top: 10px;
+    padding: 8px;
+}
+
+#bank-details {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+#bank-details p {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
 @media screen and (max-width: 1024px) {
     #cart-container {
         flex-direction: column;
