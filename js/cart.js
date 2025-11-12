@@ -8,99 +8,121 @@ const numberProducts = document.getElementById('number-products');
 let numberProducstTotal = parseInt(numberProducts.textContent);
 
 function calculateSubtotal() {
-    const productsInCart = JSON.parse(localStorage.getItem('carrito'));
+  const productsInCart = JSON.parse(localStorage.getItem('carrito'));
 
-    if (!productsInCart || productsInCart.length === 0) {
-        return 0;
-    }
+  if (!productsInCart || productsInCart.length === 0) {
+    return 0;
+  }
 
-    let total = 0;
+  let total = 0;
 
-    productsInCart.forEach(product => {
-        total += product.price.split(' ')[1] * product.cantidad;
-    })
+  productsInCart.forEach((product) => {
+    total += product.price.split(' ')[1] * product.cantidad;
+  });
 
-    return total;
+  return total;
 }
 
 // Función para actualizar el subtotal
 function updateSubtotal() {
-    const subtotalElement = document.getElementById('subtotal');
-    const totalElement = document.getElementById('total');
+  const subtotalElement = document.getElementById('subtotal');
+  const totalElement = document.getElementById('total');
 
-    const IVA = 0.22;
+  const IVA = 0.22;
 
-    // Calcular nuevo subtotal
-    const subtotal = calculateSubtotal();
-    const total = subtotal + subtotal * IVA;
+  // Calcular nuevo subtotal
+  const subtotal = calculateSubtotal();
+  const total = subtotal + subtotal * IVA;
 
-
-    // Actualizar los elementos en el DOM
-    subtotalElement.textContent = `Subtotal: $${subtotal.toLocaleString()}`;
-    totalElement.textContent = `Total: $${parseInt(total).toLocaleString()}`;
-
+  // Actualizar los elementos en el DOM
+  subtotalElement.textContent = `Subtotal: $${subtotal.toLocaleString()}`;
+  totalElement.textContent = `Total: $${parseInt(total).toLocaleString()}`;
 }
 
 function decreaseUnit(id, quantityInput) {
+  const productsInCart = JSON.parse(localStorage.getItem('carrito'));
+  const product = productsInCart.find((p) => parseInt(p.id) === id);
+  if (product) {
+    quantityInput.textContent = parseInt(quantityInput.textContent) + 1;
+    product.cantidad++;
+    numberProducstTotal++;
+    localStorage.setItem('carrito', JSON.stringify(productsInCart));
+    updateSubtotal();
+  }
 
-    const productsInCart = JSON.parse(localStorage.getItem('carrito'));
-    const product = productsInCart.find((p) => parseInt(p.id) === id);
-    if (product) {
-        quantityInput.textContent = parseInt(quantityInput.textContent) + 1;
-        product.cantidad++;
-        numberProducstTotal++;
-        localStorage.setItem('carrito', JSON.stringify(productsInCart));
-        updateSubtotal();
-    }
-
-    numberProducts.textContent = numberProducstTotal;
+  numberProducts.textContent = numberProducstTotal;
 }
 
 function disminuirCantidad(id, quantityInput) {
+  let quantityNumber = parseInt(quantityInput.textContent);
 
-    let quantityNumber = parseInt(quantityInput.textContent);
+  if (quantityNumber === 1) {
+    return;
+  }
 
-    if (quantityNumber === 1) {
-        return;
+  const productsInCart = JSON.parse(localStorage.getItem('carrito'));
+
+  const product = productsInCart.find((p) => parseInt(p.id) === id);
+
+  if (product) {
+    quantityInput.textContent = quantityNumber - 1;
+    product.cantidad--;
+    numberProducstTotal--;
+    localStorage.setItem('carrito', JSON.stringify(productsInCart));
+    updateSubtotal();
+  }
+
+  numberProducts.textContent = numberProducstTotal;
+}
+
+function paymentsOptions() {
+  const paymentsSelect = document.getElementById('payment-method');
+
+  paymentsSelect.addEventListener('change', function () {
+    const cardDetails = document.getElementById('card-details');
+    const installments = document.getElementById('installments');
+    const bankDetails = document.getElementById('bank-details');
+
+    const selectedOption = paymentsSelect.value;
+
+    if (selectedOption === 'credit-card') {
+      cardDetails.classList.remove('d-none');
+      installments.classList.remove('d-none');
+      bankDetails.classList.add('d-none');
+    } else if (selectedOption === 'debit-card') {
+      cardDetails.classList.remove('d-none');
+      installments.classList.add('d-none');
+      bankDetails.classList.add('d-none');
+    } else if (selectedOption === 'bank-transfer') {
+      installments.classList.add('d-none');
+      cardDetails.classList.add('d-none');
+      bankDetails.classList.remove('d-none');
     }
-
-    const productsInCart = JSON.parse(localStorage.getItem('carrito'));
-
-    const product = productsInCart.find((p) => parseInt(p.id) === id);
-
-    if (product) {
-        quantityInput.textContent = quantityNumber - 1;
-        product.cantidad--;
-        numberProducstTotal--;
-        localStorage.setItem('carrito', JSON.stringify(productsInCart));
-        updateSubtotal();
-
-    }
-
-    numberProducts.textContent = numberProducstTotal;
+  });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const noProductsMessage = document.getElementById('no-products');
-    const cartTableBody = document.getElementById('cart-products-body');
-    const productsInCart = JSON.parse(localStorage.getItem('carrito'));
+  const noProductsMessage = document.getElementById('no-products');
+  const cartTableBody = document.getElementById('cart-products-body');
+  const productsInCart = JSON.parse(localStorage.getItem('carrito'));
 
-    if (!productsInCart || productsInCart.length === 0) {
-        noProductsMessage.classList.remove('d-none')
-        return;
-    } else {
-        cartTableBody.style.display = 'table-row-group';
-    }
+  paymentsOptions();
 
-    const productsTableBody = document.getElementById('cart-products-body');
+  if (!productsInCart || productsInCart.length === 0) {
+    noProductsMessage.classList.remove('d-none');
+    return;
+  } else {
+    cartTableBody.style.display = 'table-row-group';
+  }
 
-    // Renderizar los productos
-    productsInCart.forEach(product => {
+  const productsTableBody = document.getElementById('cart-products-body');
 
-        const row = document.createElement('tr');
-        row.classList.add('cart-item');
-        row.id = "cart-item"
-        row.innerHTML = `
+  // Renderizar los productos
+  productsInCart.forEach((product) => {
+    const row = document.createElement('tr');
+    row.classList.add('cart-item');
+    row.id = 'cart-item';
+    row.innerHTML = `
           <td>
             <div class="product-info">
               <img src="${product.image}" alt="${product.title}" class="product-image" />
@@ -119,57 +141,58 @@ document.addEventListener('DOMContentLoaded', function () {
 
           </td>
         `;
-        productsTableBody.appendChild(row);
-    });
+    productsTableBody.appendChild(row);
+  });
 
-    productsTableBody.addEventListener('click', function (e) {
-        const quantityInputs = document.querySelectorAll('.quantity-input')
+  productsTableBody.addEventListener('click', function (e) {
+    const quantityInputs = document.querySelectorAll('.quantity-input');
 
-        const qualityInput = Array.from(quantityInputs).find(item => item.dataset.id === e.target.dataset.id);
+    const qualityInput = Array.from(quantityInputs).find(
+      (item) => item.dataset.id === e.target.dataset.id
+    );
 
-        if (e.target.classList.contains('decrease')) {
-            const id = parseInt(e.target.dataset.id);
-            disminuirCantidad(id, qualityInput);
-            updateSubtotal();
-        }
+    if (e.target.classList.contains('decrease')) {
+      const id = parseInt(e.target.dataset.id);
+      disminuirCantidad(id, qualityInput);
+      updateSubtotal();
+    }
 
-        if (e.target.classList.contains('increase')) {
-            const id = parseInt(e.target.dataset.id);
-            decreaseUnit(id, qualityInput);
-            updateSubtotal();
-        }
-    });
+    if (e.target.classList.contains('increase')) {
+      const id = parseInt(e.target.dataset.id);
+      decreaseUnit(id, qualityInput);
+      updateSubtotal();
+    }
+  });
 
-    const items = document.querySelectorAll('#cart-item')
-    items.forEach(item => {
-        const btnDelete = document.createElement('button');
-        btnDelete.innerHTML = `
+  const items = document.querySelectorAll('#cart-item');
+  items.forEach((item) => {
+    const btnDelete = document.createElement('button');
+    btnDelete.innerHTML = `
             <img src="./img/bin.png">
-        `
-        btnDelete.className = 'btn-delete'
-        btnDelete.addEventListener('click', (event) => {
+        `;
+    btnDelete.className = 'btn-delete';
+    btnDelete.addEventListener('click', (event) => {
+      //Se obtiene el id del producto que esta en los controles quantity controls
+      const idProduct =
+        event.target.parentNode.querySelector('.decrease').dataset.id;
+      const quantity = event.target.parentNode.querySelector('.quantity-input');
+      const quantityTotal =
+        parseInt(numberProducts.textContent) - parseInt(quantity.textContent);
+      const carrito = JSON.parse(localStorage.getItem('carrito'));
+      const newCarrito = carrito.filter((item) => item.id !== idProduct);
 
-            //Se obtiene el id del producto que esta en los controles quantity controls
-            const idProduct = event.target.parentNode.querySelector('.decrease').dataset.id;
-            const quantity = event.target.parentNode.querySelector('.quantity-input');
-           const quantityTotal = parseInt(numberProducts.textContent) - parseInt(quantity.textContent);
-            const carrito = JSON.parse(localStorage.getItem('carrito'));
-            const newCarrito = carrito.filter(item => item.id !== idProduct);
+      localStorage.setItem('carrito', JSON.stringify(newCarrito));
+      productsTableBody.removeChild(event.target.parentNode);
+      updateSubtotal();
 
-            localStorage.setItem('carrito', JSON.stringify(newCarrito));
-            productsTableBody.removeChild(event.target.parentNode);
-            updateSubtotal();
+      if (productsTableBody.children.length === 1) {
+        noProductsMessage.classList.remove('d-none');
+      }
 
-            if (productsTableBody.children.length === 1) {
-                noProductsMessage.classList.remove('d-none');
-            }
-
-            numberProducts.textContent = quantityTotal;
-        });
-        item.append(btnDelete);
-    })
-
-
+      numberProducts.textContent = quantityTotal;
+    });
+    item.append(btnDelete);
+  });
 });
 
 // Inicializar subtotal y total
