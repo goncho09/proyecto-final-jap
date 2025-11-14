@@ -10,8 +10,7 @@ let numberProducstTotal = parseInt(numberProducts.textContent);
 //nueva variable envío
 let shippingCost = 0;
 
-//obtener shippingSelect Global
-const shippingSelect = document.getElementById('shipping-method');
+
 
 function calculateSubtotal() {
   const productsInCart = JSON.parse(localStorage.getItem('carrito'));
