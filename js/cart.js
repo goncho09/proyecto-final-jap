@@ -10,8 +10,7 @@ let numberProducstTotal = parseInt(numberProducts.textContent);
 //nueva variable envío
 let shippingCost = 0;
 
-//obtener shippingSelect Global
-const shippingSelect = document.getElementById('shipping-method');
+
 
 function calculateSubtotal() {
   const productsInCart = JSON.parse(localStorage.getItem('carrito'));
@@ -146,19 +145,7 @@ function paymentsOptions() {
   });
 }
 
-//Listener nuevo para cambio envio
-shippingSelect.addEventListener('change', function (){
-    if (shippingSelect.value === "standard") {
-        shippingCost = 150;
-    } else if (shippingSelect.value === "express"){
-        shippingCost = 350;
-    } else if (shippingSelect.value === "premium"){ 
-        shippingCost = 600;
-    } else { 
-        shippingCost = 0;
-    }
-    updateSubtotal();
-});
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -167,6 +154,24 @@ document.addEventListener('DOMContentLoaded', function () {
   const productsInCart = JSON.parse(localStorage.getItem('carrito'));
 
   paymentsOptions();
+
+  // Listener nuevo para cambio envio
+  const shippingSelect = document.getElementById('shipping-method');
+  if (shippingSelect) {
+    shippingSelect.addEventListener('change', function (){
+      if (this.value === "standard") {
+        shippingCost = 150;
+      } else if (this.value === "express"){
+        shippingCost = 350;
+      } else if (this.value === "premium"){ 
+        shippingCost = 600;
+      } else { 
+        shippingCost = 0;
+      }
+      updateSubtotal();
+    });
+  }
+
 
   if (!productsInCart || productsInCart.length === 0) {
     noProductsMessage.classList.remove('d-none');
