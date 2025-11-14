@@ -7,6 +7,12 @@ new Header(authorizedUser);
 const numberProducts = document.getElementById('number-products');
 let numberProducstTotal = parseInt(numberProducts.textContent);
 
+//nueva variable envío
+let shippingCost = 0;
+
+//obtener shippingSelect Global
+const shippingSelect = document.getElementById('shipping-method');
+
 function calculateSubtotal() {
   const productsInCart = JSON.parse(localStorage.getItem('carrito'));
 
@@ -32,11 +38,13 @@ function updateSubtotal() {
 
   // Calcular nuevo subtotal
   const subtotal = calculateSubtotal();
-  const total = subtotal + subtotal * IVA;
+  const totalConIva = subtotal + subtotal * IVA; //
+
+  const totalFinal = totalConIva + shippingCost;  // total incluyendo costo de envío
 
   // Actualizar los elementos en el DOM
   subtotalElement.textContent = `Subtotal: $${subtotal.toLocaleString()}`;
-  totalElement.textContent = `Total: $${parseInt(total).toLocaleString()}`;
+  totalElement.textContent = `Total: $${parseInt(totalFinal).toLocaleString()}`; // actualizar total en pantalla
 }
 
 function increaseUnit(id, quantityInput) {
@@ -137,6 +145,21 @@ function paymentsOptions() {
     }
   });
 }
+
+//Listener nuevo para cambio envio
+shippingSelect.addEventListener('change', function (){
+    if (shippingSelect.value === "standard") {
+        shippingCost = 150;
+    } else if (shippingSelect.value === "express"){
+        shippingCost = 350;
+    } else if (shippingSelect.value === "premium"){ 
+        shippingCost = 600;
+    } else { 
+        shippingCost = 0;
+    }
+    updateSubtotal();
+});
+
 
 document.addEventListener('DOMContentLoaded', function () {
   const noProductsMessage = document.getElementById('no-products');
