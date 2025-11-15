@@ -10,7 +10,128 @@ let numberProducstTotal = parseInt(numberProducts.textContent);
 //nueva variable envío
 let shippingCost = 0;
 
+// Validar todos los campos antes de finalizar compra
+function validatePurchase() {
+    const errors = [];
+    
+    // 1. Dirección
+    const departamento = document.getElementById('departamento');
+    const ciudad = document.getElementById('ciudad');
+    const calle = document.getElementById('calle');
+    const numero = document.getElementById('numero');
+    const esquina = document.getElementById('esquina');
+    
+    if (!departamento.value.trim()) errors.push('El departamento no puede estar vacío');
+    if (!ciudad.value.trim()) errors.push('La ciudad no puede estar vacía');
+    if (!calle.value.trim()) errors.push('La calle no puede estar vacía');
+    if (!numero.value.trim()) errors.push('El número de calle no puede estar vacío');
+    if (!esquina.value.trim()) errors.push('La esquina no puede estar vacía');
+    
+    // 2. Forma de envío seleccionada
+    const shippingSelect = document.getElementById('shipping-method');
+    if (!shippingSelect.value) {
+        errors.push('Debe seleccionar una forma de envío');
+    }
+    
+    // 3. Productos con cantidad mayor a 0
+    const productsInCart = JSON.parse(localStorage.getItem('carrito')) || [];
+    if (productsInCart.length === 0) {
+        errors.push('El carrito está vacío');
+    } else {
+        productsInCart.forEach(product => {
+            if (product.cantidad <= 0) {
+                errors.push(`La cantidad del producto "${product.title}" debe ser mayor a 0`);
+            }
+        });
+    }
+    
+    // 4. Forma de pago
+    const paymentSelect = document.getElementById('payment-method');
+    if (!paymentSelect.value) {
+        errors.push('Debe seleccionar una forma de pago');
+    } else {
+        // 5. Campos específicos de cada método de pago
+        if (paymentSelect.value === 'credit-card' || paymentSelect.value === 'debit-card') {
+            const cardHolderName = document.getElementById('card-holder-name');
+            const cardNumber = document.getElementById('card-number');
+            const cardExpiration = document.getElementById('card-expiration');
+            const cardCvv = document.getElementById('card-cvv');
+            
+            if (!cardHolderName.value.trim()) errors.push('El nombre del titular es obligatorio');
+            if (!cardNumber.value.trim()) errors.push('El número de tarjeta es obligatorio');
+            if (!cardExpiration.value.trim()) errors.push('La fecha de expiración es obligatoria');
+            if (!cardCvv.value.trim()) errors.push('El CVV es obligatorio');
+            
+            // Cuotas para tarjeta de crédito
+            if (paymentSelect.value === 'credit-card') {
+                const installments = document.getElementById('installments');
+                if (!installments.value) errors.push('Debe seleccionar cantidad de cuotas');
+            }
+        }
+    }
+    
+    return errors;
+}
 
+// Alerta de error
+function showErrorMessages(errors) {
+    const existingErrors = document.querySelectorAll('.error-message');
+    existingErrors.forEach(error => error.remove());
+    
+    if (errors.length === 0) return;
+    
+    const errorContainer = document.createElement('div');
+    errorContainer.className = 'alert alert-danger error-message alert-dismissible fade show';
+    errorContainer.innerHTML = `
+        <strong>Errores en el formulario:</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <ul>
+            ${errors.map(error => `<li>${error}</li>`).join('')}
+        </ul>
+    `;
+    
+    const buyButton = document.getElementById('buy-button');
+    buyButton.parentNode.insertBefore(errorContainer, buyButton);
+    
+    errorContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Compra exitosa
+function showSuccessMessage() {
+    const successMessage = document.createElement('div');
+    successMessage.className = 'alert alert-success text-center';
+    successMessage.innerHTML = `
+        <h4>¡Compra realizada con éxito!</h4>
+        <p>Gracias por elegirnos.</p>
+        <p>Número de orden: #${Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+        <button class="btn btn-primary mt-3" onclick="window.location.href='./'">Volver al inicio</button>
+    `;
+    
+    // Reemplazar el contenido del carrito con el mensaje de éxito
+    const mainContainer = document.getElementById('main-container');
+    mainContainer.innerHTML = '';
+    mainContainer.appendChild(successMessage);
+    
+    // Limpiar el carrito del localStorage
+    localStorage.removeItem('carrito');
+    
+    // Actualizar el contador del carrito
+    const numberProducts = document.getElementById('number-products');
+    numberProducts.textContent = '0';
+}
+
+// Función para manejar el finalizar compra
+function handlePurchase() {
+    const errors = validatePurchase();
+    
+    if (errors.length > 0) {
+        showErrorMessages(errors);
+        return;
+    }
+    
+    // Si no hay errores, mostrar éxito
+    showSuccessMessage();
+}
 
 function calculateSubtotal() {
   const productsInCart = JSON.parse(localStorage.getItem('carrito'));
@@ -152,6 +273,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const noProductsMessage = document.getElementById('no-products');
   const cartTableBody = document.getElementById('cart-products-body');
   const productsInCart = JSON.parse(localStorage.getItem('carrito'));
+ const buyButton = document.getElementById('buy-button');
+  if (buyButton) {
+    buyButton.addEventListener('click', handlePurchase);
+  }
 
   paymentsOptions();
 
