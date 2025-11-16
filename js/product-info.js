@@ -133,7 +133,7 @@ function renderComment(comment) {
 
     const rating = document.createElement('p');
     rating.className = 'comment-rating';
-    rating.innerHTML = mostrarEstrellas(comment.score);
+    rating.innerHTML = showStars(comment.score);
 
     const description = document.createElement('p');
     description.className = 'comment-description';
