@@ -7,6 +7,132 @@ new Header(authorizedUser);
 const numberProducts = document.getElementById('number-products');
 let numberProducstTotal = parseInt(numberProducts.textContent);
 
+//nueva variable envío
+let shippingCost = 0;
+
+// Validar todos los campos antes de finalizar compra
+function validatePurchase() {
+    const errors = [];
+    
+    // 1. Dirección
+    const departamento = document.getElementById('departamento');
+    const ciudad = document.getElementById('ciudad');
+    const calle = document.getElementById('calle');
+    const numero = document.getElementById('numero');
+    const esquina = document.getElementById('esquina');
+    
+    if (!departamento.value.trim()) errors.push('El departamento no puede estar vacío');
+    if (!ciudad.value.trim()) errors.push('La ciudad no puede estar vacía');
+    if (!calle.value.trim()) errors.push('La calle no puede estar vacía');
+    if (!numero.value.trim()) errors.push('El número de calle no puede estar vacío');
+    if (!esquina.value.trim()) errors.push('La esquina no puede estar vacía');
+    
+    // 2. Forma de envío seleccionada
+    const shippingSelect = document.getElementById('shipping-method');
+    if (!shippingSelect.value) {
+        errors.push('Debe seleccionar una forma de envío');
+    }
+    
+    // 3. Productos con cantidad mayor a 0
+    const productsInCart = JSON.parse(localStorage.getItem('carrito')) || [];
+    if (productsInCart.length === 0) {
+        errors.push('El carrito está vacío');
+    } else {
+        productsInCart.forEach(product => {
+            if (product.cantidad <= 0) {
+                errors.push(`La cantidad del producto "${product.title}" debe ser mayor a 0`);
+            }
+        });
+    }
+    
+    // 4. Forma de pago
+    const paymentSelect = document.getElementById('payment-method');
+    if (!paymentSelect.value) {
+        errors.push('Debe seleccionar una forma de pago');
+    } else {
+        // 5. Campos específicos de cada método de pago
+        if (paymentSelect.value === 'credit-card' || paymentSelect.value === 'debit-card') {
+            const cardHolderName = document.getElementById('card-holder-name');
+            const cardNumber = document.getElementById('card-number');
+            const cardExpiration = document.getElementById('card-expiration');
+            const cardCvv = document.getElementById('card-cvv');
+            
+            if (!cardHolderName.value.trim()) errors.push('El nombre del titular es obligatorio');
+            if (!cardNumber.value.trim()) errors.push('El número de tarjeta es obligatorio');
+            if (!cardExpiration.value.trim()) errors.push('La fecha de expiración es obligatoria');
+            if (!cardCvv.value.trim()) errors.push('El CVV es obligatorio');
+            
+            // Cuotas para tarjeta de crédito
+            if (paymentSelect.value === 'credit-card') {
+                const installments = document.getElementById('installments');
+                if (!installments.value) errors.push('Debe seleccionar cantidad de cuotas');
+            }
+        }
+    }
+    
+    return errors;
+}
+
+// Alerta de error
+function showErrorMessages(errors) {
+    const existingErrors = document.querySelectorAll('.error-message');
+    existingErrors.forEach(error => error.remove());
+    
+    if (errors.length === 0) return;
+    
+    const errorContainer = document.createElement('div');
+    errorContainer.className = 'alert alert-danger error-message alert-dismissible fade show';
+    errorContainer.innerHTML = `
+        <strong>Errores en el formulario:</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <ul>
+            ${errors.map(error => `<li>${error}</li>`).join('')}
+        </ul>
+    `;
+    
+    const buyButton = document.getElementById('buy-button');
+    buyButton.parentNode.insertBefore(errorContainer, buyButton);
+    
+    errorContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Compra exitosa
+function showSuccessMessage() {
+    const successMessage = document.createElement('div');
+    successMessage.className = 'alert alert-success text-center';
+    successMessage.innerHTML = `
+        <h4>¡Compra realizada con éxito!</h4>
+        <p>Gracias por elegirnos.</p>
+        <p>Número de orden: #${Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+        <button class="btn btn-primary mt-3" onclick="window.location.href='./'">Volver al inicio</button>
+    `;
+    
+    // Reemplazar el contenido del carrito con el mensaje de éxito
+    const mainContainer = document.getElementById('main-container');
+    mainContainer.innerHTML = '';
+    mainContainer.appendChild(successMessage);
+    
+    // Limpiar el carrito del localStorage
+    localStorage.removeItem('carrito');
+    
+    // Actualizar el contador del carrito
+    const numberProducts = document.getElementById('number-products');
+    numberProducts.textContent = '0';
+}
+
+// Función para manejar el finalizar compra
+function handlePurchase() {
+    const errors = validatePurchase();
+    
+    if (errors.length > 0) {
+        showErrorMessages(errors);
+        return;
+    }
+    
+    // Si no hay errores, mostrar éxito
+    showSuccessMessage();
+}
+
 function calculateSubtotal() {
   const productsInCart = JSON.parse(localStorage.getItem('carrito'));
 
@@ -32,11 +158,13 @@ function updateSubtotal() {
 
   // Calcular nuevo subtotal
   const subtotal = calculateSubtotal();
-  const total = subtotal + subtotal * IVA;
+  const totalConIva = subtotal + subtotal * IVA; //
+
+  const totalFinal = totalConIva + shippingCost;  // total incluyendo costo de envío
 
   // Actualizar los elementos en el DOM
   subtotalElement.textContent = `Subtotal: $${subtotal.toLocaleString()}`;
-  totalElement.textContent = `Total: $${parseInt(total).toLocaleString()}`;
+  totalElement.textContent = `Total: $${parseInt(totalFinal).toLocaleString()}`; // actualizar total en pantalla
 }
 
 function increaseUnit(id, quantityInput) {
@@ -78,37 +206,97 @@ function decreaseUnit(id, quantityInput) {
 }
 
 function paymentsOptions() {
-  const paymentsSelect = document.getElementById('payment-method');
+  const shippingButton = document.getElementById('shipping-method-button');
+  const directionButton = document.getElementById('direction-button');
+  const paymentButton = document.getElementById('payment-method-button');
 
-  paymentsSelect.addEventListener('change', function () {
-    const cardDetails = document.getElementById('card-details');
-    const installments = document.getElementById('installments');
-    const bankDetails = document.getElementById('bank-details');
+  const shippingSelect = document.getElementById('shipping-method');
+  const paymentSelect = document.getElementById('payment-method');
 
-    const selectedOption = paymentsSelect.value;
+  const directionContainer = document.querySelector('.direction-container');
+  const cardDetails = document.getElementById('card-details');
+  const installments = document.getElementById('installments');
+  const bankDetails = document.getElementById('bank-details');
 
-    if (selectedOption === 'credit-card') {
+  shippingButton.addEventListener('click', function () {
+    if (shippingSelect.style.display === 'none') {
+      shippingSelect.style.display = 'flex';
+    } else {
+      shippingSelect.style.display = 'none';
+    }
+  });
+
+  directionButton.addEventListener('click', function () {
+    if (directionContainer.style.display === 'none') {
+      directionContainer.style.display = 'flex';
+    } else {
+      directionContainer.style.display = 'none';
+    }
+  });
+
+  paymentButton.addEventListener('click', function () {
+    if (paymentSelect.style.display === 'none') {
+      paymentSelect.style.display = 'flex';
+    } else {
+      cardDetails.classList.add('d-none');
+      installments.classList.add('d-none');
+      bankDetails.classList.add('d-none');
+      paymentSelect.style.display = 'none';
+    }
+  });
+
+  paymentSelect.addEventListener('change', function () {
+    if (this.value === 'credit-card') {
       cardDetails.classList.remove('d-none');
       installments.classList.remove('d-none');
       bankDetails.classList.add('d-none');
-    } else if (selectedOption === 'debit-card') {
+    } else if (this.value === 'bank-transfer') {
+      bankDetails.classList.remove('d-none');
+      cardDetails.classList.add('d-none');
+      installments.classList.add('d-none');
+    } else if (this.value === 'debit-card') {
       cardDetails.classList.remove('d-none');
       installments.classList.add('d-none');
       bankDetails.classList.add('d-none');
-    } else if (selectedOption === 'bank-transfer') {
-      installments.classList.add('d-none');
+    } else {
       cardDetails.classList.add('d-none');
-      bankDetails.classList.remove('d-none');
+      installments.classList.add('d-none');
+      bankDetails.classList.add('d-none');
     }
   });
 }
+
+
+
 
 document.addEventListener('DOMContentLoaded', function () {
   const noProductsMessage = document.getElementById('no-products');
   const cartTableBody = document.getElementById('cart-products-body');
   const productsInCart = JSON.parse(localStorage.getItem('carrito'));
+ const buyButton = document.getElementById('buy-button');
+  if (buyButton) {
+    buyButton.addEventListener('click', handlePurchase);
+  }
 
   paymentsOptions();
+
+  // Listener nuevo para cambio envio
+  const shippingSelect = document.getElementById('shipping-method');
+  if (shippingSelect) {
+    shippingSelect.addEventListener('change', function (){
+      if (this.value === "standard") {
+        shippingCost = 150;
+      } else if (this.value === "express"){
+        shippingCost = 350;
+      } else if (this.value === "premium"){ 
+        shippingCost = 600;
+      } else { 
+        shippingCost = 0;
+      }
+      updateSubtotal();
+    });
+  }
+
 
   if (!productsInCart || productsInCart.length === 0) {
     noProductsMessage.classList.remove('d-none');

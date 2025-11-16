@@ -72,121 +72,138 @@
             </div>
         </nav>
     </header>
-    <main class="container">
-        <div id="cart-container">
+    <main class="container" id="main-container">
 
-            <table id="cart-table">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th style="text-align: center;">Precio</th>
-                        <th style="text-align: center;">Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody id="cart-products-body">
-                    <tr id="no-products" class="d-none">
-                        <td colspan="3">No hay productos en el carrito.</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div id="resumen">
-                <h3>Resumen de la compra</h3>
-                <hr />
-                <p id="subtotal">Subtotal: $0</p>
-                <hr />
-                <h4 id="total">Total $0</h4>
-                <button id="buy-button" disabled>Finalizar compra</button>
-            </div>
-        </div>
-        <form class="checkout-container">
-            <div class="shipping-method-container">
-                <label for="shipping-method">Tipo de envio:</label>
-                <select id="shipping-method">
-                    <option value="" disabled selected>Seleccione un tipo de envío</option>
-                    <option value="standard">
-                        <span>
-                            Standard
-                        </span>
-                        <span>
-                            🚚
-                        </span>
-                        <span>
-                            12-15 días (5%)
-                        </span>
-                    </option>
-                    <option value="express">
-                        <span>
-                            Express
-                        </span>
-                        <span>
-                            🚚🪽
-                        </span>
-                        <span>
-                            5-8 días (7%)
-                        </span>
-                    </option>
-                    <option value="premium">
-                        <span>
-                            Premium
-                        </span>
-                        <span>
-                            🚚 🚀
-                        </span>
-                        <span>
-                            2-5 días (15%)
-                        </span>
-                    </option>
-                </select>
-            </div>
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th style="text-align: center;">Precio</th>
+                    <th style="text-align: center;">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody id="cart-products-body">
+                <tr id="no-products" class="d-none">
+                    <td colspan="3" style="text-align: center;">No hay productos en el carrito.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="resumen">
+            <h3>Resumen de la compra</h3>
+            <hr />
+            <p id="subtotal">Subtotal: $0</p>
+            <hr />
+            <h4 id="total">Total $0</h4>
 
-            <div class="direction-container">
+            <button id="shipping-method-button" class="button-acordeon">
+                <span>
+                    Tipo de envío
+                </span>
+                <span>
+                    🡳
+                </span>
+            </button>
+
+            <select id="shipping-method" class="payments-selects" required style="display: none;">
+                <option value="" disabled selected>Seleccione un tipo de envío</option>
+                <option value="standard">
+                    <span>
+                        Standard
+                    </span>
+                    <span>
+                        🚚
+                    </span>
+                    <span>
+                        12-15 días (5%)
+                    </span>
+                </option>
+                <option value="express">
+                    <span>
+                        Express
+                    </span>
+                    <span>
+                        🚚🪽
+                    </span>
+                    <span>
+                        5-8 días (7%)
+                    </span>
+                </option>
+                <option value="premium">
+                    <span>
+                        Premium
+                    </span>
+                    <span>
+                        🚚 🚀
+                    </span>
+                    <span>
+                        2-5 días (15%)
+                    </span>
+                </option>
+            </select>
+
+            <button id="direction-button" class="button-acordeon">
+                <span>
+                    Dirección de envío
+                </span>
+                <span>
+                    🡳
+                </span>
+            </button>
+            <div class="direction-container" style="display: none;">
                 <label for="direction">Dirección de envío:</label>
                 <input type="text" id="departamento" placeholder="Ingrese su departamento" required />
                 <input type="text" id="ciudad" placeholder="Ingrese su ciudad" required />
                 <div>
-                    <input type="text" id="calle" placeholder="Ingrese su calle" required />
+                    <input type="text" id="calle" placeholder="Ingrese su calle" required
+                        style="margin-bottom: 10px;" />
                     <input type="text" id="numero" placeholder="Ingrese su N° de calle" required />
                 </div>
                 <input type="text" id="esquina" placeholder="Ingrese su esquina" required />
             </div>
 
+            <button id="payment-method-button" class="button-acordeon">
+                <span>
+                    Método de pago
+                </span>
+                <span>
+                    🡳
+                </span>
+            </button>
 
-            <div class="payment-method-container">
-                <div class="payment-method-select-container">
-                    <label for="payment-method">Método de pago:</label>
-                    <select id="payment-method">
-                        <option value="" disabled selected>Seleccione un método de pago</option>
-                        <option value="credit-card">Tarjeta de crédito 💳</option>
-                        <option value="debit-card">Tarjeta de débito 💳</option>
-                        <option value="bank-transfer">Transferencia bancaria 🎫</option>
-                    </select>
-                </div>
+            <select id="payment-method" required>
+                <option value="" disabled selected>Seleccione un método de pago</option>
+                <option value="credit-card">Tarjeta de crédito 💳</option>
+                <option value="debit-card">Tarjeta de débito 💳</option>
+                <option value="bank-transfer">Transferencia bancaria 🎫</option>
+                <option value="cash-on-delivery">Pago en entrega 💵</option>
+            </select>
 
-                <div class="payment-method-subcontainer">
 
-                    <div id="card-details" class="d-none">
-                        <input type="text" id="card-number" placeholder="Número de tarjeta" maxlength="16" />
-                        <input type="text" id="card-expiration" placeholder="Fecha de vencimiento (MM/AA)"
-                            maxlength="5" />
-                        <input type="text" id="card-cvv" placeholder="CVV" maxlength="4" />
-                    </div>
-
-                    <select id="installments" class="d-none">
-                        <option value="" disabled selected>Seleccione cantidad de cuotas</option>
-                        <option value="1">1 cuota sin interés</option>
-                        <option value="3">3 cuotas sin interés</option>
-                        <option value="6">6 cuotas sin interés</option>
-                        <option value="12">12 cuotas sin interés</option>
-                    </select>
-
-                    <div id="bank-details" class="d-none">
-                        <label for="bank-account">Número de cuenta bancaria:</label>
-                        <p>1111-1111-1111</p>
-                    </div>
-
-                </div>
+            <div id="card-details" class="d-none">
+                <input type="text" id="card-holder-name" placeholder="Nombre del titular" maxlength="50" required />
+                <input type="text" id="card-number" placeholder="Número de tarjeta" maxlength="16" required />
+                <input type="text" id="card-expiration" placeholder="Fecha de vencimiento (MM/AA)" maxlength="5"
+                    required />
+                <input type="text" id="card-cvv" placeholder="CVV" maxlength="4" required />
             </div>
-        </form>
+
+            <select id="installments" class="d-none" required>
+                <option value="" disabled selected>Seleccione cantidad de cuotas</option>
+                <option value="1">1 cuota sin interés</option>
+                <option value="3">3 cuotas sin interés</option>
+                <option value="6">6 cuotas sin interés</option>
+                <option value="12">12 cuotas sin interés</option>
+            </select>
+
+            <div id="bank-details" class="d-none">
+                <label for="bank-account">Número de cuenta bancaria:</label>
+                <p>1111-1111-1111</p>
+            </div>
+
+            <button id="buy-button" >Finalizar compra</button>
+        </div>
+        </div>
+
 
     </main>
     <footer class="text-muted">
