@@ -5,8 +5,10 @@
     font-size: 16px;
     font-family: 'Raleway';
 }
+
 /* Modo claro/oscuro */
 html:has(#switchTheme:checked) {
+
     body,
     main,
     .album,
@@ -47,16 +49,40 @@ html:has(#switchTheme:checked) {
         color: white;
     }
 
-    .related-link, p > a {
-        color:#fff;
+    .related-link,
+    p>a {
+        color: #fff;
     }
 
-    p > a:hover{
+    p>a:hover {
         color: #0a58ca;
+    }
+
+    .modal-content {
+        border: 1px solid #dee2e6;
+    }
+
+    .standar {
+        color: #6c757d !important;
+    }
+
+    .premium {
+        color: #0d6efd !important;
+    }
+
+    .gold {
+        color: #ffc107 !important
     }
 }
 
 /* Estilo header y navbar */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+}
+
 nav ul {
     width: 100%;
     justify-content: end;
@@ -230,8 +256,8 @@ main {
     min-height: calc(100vh - 210px);
 }
 
-p > a {
-    color:#333;
+p>a {
+    color: #333;
 }
 
 a.custom-card,
