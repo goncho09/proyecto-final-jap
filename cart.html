@@ -78,13 +78,13 @@
             <thead>
                 <tr>
                     <th>Producto</th>
-                    <th style="text-align: center;">Precio</th>
-                    <th style="text-align: center;">Cantidad</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
                 </tr>
             </thead>
             <tbody id="cart-products-body">
                 <tr id="no-products" class="d-none">
-                    <td colspan="3" style="text-align: center;">No hay productos en el carrito.</td>
+                    <td colspan="3">No hay productos en el carrito.</td>
                 </tr>
             </tbody>
         </table>
@@ -92,6 +92,8 @@
             <h3>Resumen de la compra</h3>
             <hr />
             <p id="subtotal">Subtotal: $0</p>
+            <hr class="d-none" id="payment-method-hr">
+            <p id="payment-method-label" class="d-none">Envio </p>
             <hr />
             <h4 id="total">Total $0</h4>
 
@@ -113,7 +115,7 @@
                     <span>
                         🚚
                     </span>
-                    <span>
+                    <span id="standard">
                         12-15 días (5%)
                     </span>
                 </option>
@@ -124,7 +126,7 @@
                     <span>
                         🚚🪽
                     </span>
-                    <span>
+                    <span id="express">
                         5-8 días (7%)
                     </span>
                 </option>
@@ -135,7 +137,7 @@
                     <span>
                         🚚 🚀
                     </span>
-                    <span>
+                    <span id="premium">
                         2-5 días (15%)
                     </span>
                 </option>
@@ -150,7 +152,6 @@
                 </span>
             </button>
             <div class="direction-container" style="display: none;">
-                <label for="direction">Dirección de envío:</label>
                 <input type="text" id="departamento" placeholder="Ingrese su departamento" required />
                 <input type="text" id="ciudad" placeholder="Ingrese su ciudad" required />
                 <div>
@@ -196,11 +197,11 @@
             </select>
 
             <div id="bank-details" class="d-none">
-                <label for="bank-account">Número de cuenta bancaria:</label>
+                <h6>Número de cuenta bancaria:</h6>
                 <p>1111-1111-1111</p>
             </div>
 
-            <button id="buy-button" >Finalizar compra</button>
+            <button id="buy-button">Finalizar compra</button>
         </div>
         </div>
 
