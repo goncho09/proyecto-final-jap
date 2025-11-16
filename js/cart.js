@@ -5,7 +5,7 @@ checkSession(!authorizedUser, './login.html');
 new Header(authorizedUser);
 
 const numberProducts = document.getElementById('number-products');
-let numberProducstTotal = parseInt(numberProducts.textContent);
+
 
 // Validar todos los campos antes de finalizar compra
 function validatePurchase() {
@@ -195,6 +195,7 @@ function updatePayment(subtotal) {
 
 function increaseUnit(id, quantityInput) {
     const productsInCart = JSON.parse(localStorage.getItem('carrito'));
+    let numberProducstTotal = parseInt(numberProducts.textContent);
     const product = productsInCart.find((p) => parseInt(p.id) === id);
     if (product) {
         quantityInput.textContent = parseInt(quantityInput.textContent) + 1;
@@ -210,7 +211,7 @@ function increaseUnit(id, quantityInput) {
 function decreaseUnit(id, quantityInput) {
 
     let quantityNumber = parseInt(quantityInput.textContent);
-
+    let numberProducstTotal = parseInt(numberProducts.textContent);
     if (quantityNumber === 1) {
         return;
     }
@@ -388,7 +389,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (productsTableBody.children.length === 1) {
                 noProductsMessage.classList.remove('d-none');
             }
-
             numberProducts.textContent = quantityTotal;
         });
         item.append(btnDelete);
