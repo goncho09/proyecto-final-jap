@@ -181,7 +181,7 @@ function updatePayment(subtotal) {
     if (shippingSelect.value === 'express') {
         result = subtotal * 0.07;
         paymentMethodLabel.textContent = `Envio ${shippingSelect.querySelector(`#${shippingSelect.value}`).textContent} $${result.toLocaleString()}`;
-
+      
         return result;
     }
 
