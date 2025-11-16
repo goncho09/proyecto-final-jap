@@ -37,9 +37,8 @@ function updateSubtotal() {
 
   // Calcular nuevo subtotal
   const subtotal = calculateSubtotal();
-  const totalConIva = subtotal + subtotal * IVA; //
+  const totalFinal = (subtotal + shippingCost) * (1 + IVA); //
 
-  const totalFinal = totalConIva + shippingCost;  // total incluyendo costo de envío
 
   // Actualizar los elementos en el DOM
   subtotalElement.textContent = `Subtotal: $${subtotal.toLocaleString()}`;
