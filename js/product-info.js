@@ -79,7 +79,7 @@ function loadingProductsRelated(relatedProducts) {
 const commentsContainer = document.getElementById('comments-container')
 const commentsSection = document.getElementById('comments-section');
 
-function mostrarEstrellas(rating) {
+function showStars(rating) {
     let estrellas = '';
 
     for (let i = 0; i < 5; i++) {
@@ -100,7 +100,7 @@ getJSONData(`${PRODUCT_INFO_COMMENTS_URL}${productID}${EXT_TYPE}`).then(
 
         const fragment = document.createDocumentFragment();
         response.data.forEach(comment => {
-            fragment.appendChild(renderAllComments(comment));
+            fragment.appendChild(renderComment(comment));
         });
 
         commentsSection.appendChild(fragment);
@@ -108,7 +108,7 @@ getJSONData(`${PRODUCT_INFO_COMMENTS_URL}${productID}${EXT_TYPE}`).then(
 );
 
 // Función para renderizar todos los comentarios //
-function renderAllComments(comment) {
+function renderComment(comment) {
 
     const commentContainer = document.createElement('div');
     commentContainer.className = 'comment-user'
@@ -179,7 +179,7 @@ sendButton.addEventListener('click', (e) => {
     if (commentsContainer.classList.contains('d-none')) {
         commentsContainer.classList.remove('d-none')
     }
-    commentsSection.appendChild(renderAllComments(comment));
+    commentsSection.appendChild(renderComment(comment));
 
     // Limpiar inputs //
     ratingInput.checked = false;
